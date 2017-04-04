@@ -2,7 +2,7 @@
  * Created by franklinhc on 9/5/15.
  */
 
-function Box2DKCircle ( x,  y,  r) {
+function Box2DKCircle ( x,  y,  r, fixed) {
     var b2FixtureDef = Box2D.Dynamics.b2FixtureDef;
     var b2BodyDef = Box2D.Dynamics.b2BodyDef;
     var b2CircleShape = Box2D.Collision.Shapes.b2CircleShape;
@@ -11,18 +11,14 @@ function Box2DKCircle ( x,  y,  r) {
 
     this.miX = 0;
     this.miY = 0;
-    this.isCoin = false;
-    this.coinImg = new Image();
-    this.coinImg.src = "img/coin16px.png";
-    this.life = 0;
-
 
     this.fixDef = new b2FixtureDef;
     this.fixDef.density = 1.5;
     this.fixDef.friction = 0.3; //reibung
     this.fixDef.restitution = 1.5;
     this.bodyDef = new b2BodyDef;
-    this.bodyDef.type = b2Body.b2_kinematicBody;
+    if (fixed) this.bodyDef.type = b2Body.b2_staticBody;
+    else this.bodyDef.type = b2Body.b2_kinematicBody;
     this.fixDef.shape = new b2CircleShape(r/ SCALE);
     this.bodyDef.position.x = x/ SCALE;
     this.bodyDef.position.y = y/ SCALE;
@@ -33,6 +29,18 @@ function Box2DKCircle ( x,  y,  r) {
     this.update = function() {
         this.miX = this.Object.GetBody().GetPosition().x * SCALE;
         this.miY = this.Object.GetBody().GetPosition().y * SCALE;
+
+        if (!fixed) {
+            if (this.miY > canvas.height / 2 + 98) {
+                this.miY = (canvas.height / 2) + 98;
+                //this.miY = this.Object.GetBody().GetPosition().y * SCALE;
+            }
+            if (this.miY < canvas.height / 2 - 98) {
+                this.miY = (canvas.height / 2) - 98;
+                //this.miY = this.Object.GetBody().GetPosition().y * SCALE;
+            }
+
+        }
         //this.Object.GetBody().Set().setLocation()
 
         //console.log("miX = " + this.miX + "   miY = " + this.miY);
@@ -46,18 +54,30 @@ function Box2DKCircle ( x,  y,  r) {
 
     this.draw = function(ctx) {
         this.update();
+        /*
+        if (!fixed) {
+            if (this.miY > canvas.height / 2 + 98) {
+                this.miY = (canvas.height / 2) + 98;
+                //this.miY = this.Object.GetBody().GetPosition().y * SCALE;
+            }
+            if (this.miY < canvas.height / 2 - 98) {
+                this.miY = (canvas.height / 2) - 98;
+                //this.miY = this.Object.GetBody().GetPosition().y * SCALE;
+            }
 
-        if (this.miY    > canvas.height/2 +98 ){
-            this.miY = (canvas.height/2) + 98;
-            //this.miY = this.Object.GetBody().GetPosition().y * SCALE;
-        }
-        if (this.miY    < canvas.height/2 -98 ){
-            this.miY = (canvas.height/2) - 98;
-            //this.miY = this.Object.GetBody().GetPosition().y * SCALE;
-        }
-            var alpha = 0.3;
-            ctx.fillStyle = "rgba(100, 100, 100, " + alpha + ")";
-            ctx.strokeStyle = "rgba(100, 100, 100, 0.9)";
+        } */
+            if (fixed) {
+                var alpha = 0.3;
+                ctx.fillStyle = "rgba(100, 100, 100, " + alpha + ")";
+                ctx.strokeStyle = "rgba(100, 100, 100, 0.9)";
+            }
+            else {
+                var alpha = 1.0;
+                ctx.fillStyle = "rgba(255, 255, 255, " + alpha + ")";
+                ctx.strokeStyle = "rgba(100, 100, 100, 0.9)";
+            }
+
+
             ctx.beginPath();
             ctx.arc(this.miX, this.miY, r, 0, Math.PI * 2, true);
             ctx.rect(10, 10, 10, 10)

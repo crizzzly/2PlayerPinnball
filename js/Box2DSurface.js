@@ -2,10 +2,10 @@
  * Created by franklinhc on 9/24/15.
  */
 
-function GlassSurface () {
+function Surface () {
     this.myAxes=[];
 
-//links
+//links unten
     this.myAxes.push(new Box2DBoxEdge ( 17, 512, 38, 542));
     this.myAxes.push(new Box2DBoxEdge ( 38, 542, 40, 561));
     this.myAxes.push(new Box2DBoxEdge ( 40, 561, 48, 584));
@@ -22,10 +22,8 @@ function GlassSurface () {
     this.myAxes.push(new Box2DBoxEdge ( 250, 666, 254, 652));
     this.myAxes.push(new Box2DBoxEdge ( 254, 652, 270, 659));
     this.myAxes.push(new Box2DBoxEdge ( 270, 659, 294, 661));
-    this.myAxes.push(new Box2DBoxEdge ( 294, 661, 320, 651));
-    this.myAxes.push(new Box2DBoxEdge ( 320, 651, 339, 634));
-    this.myAxes.push(new Box2DBoxEdge ( 339, 634, 348, 609));
-    this.myAxes.push(new Box2DBoxEdge ( 348, 609, 369, 596));
+    this.myAxes.push(new Box2DBoxEdge ( 294, 661, 333, 698));
+
 
     this.myAxes.push(new Box2DBoxEdge ( 350, 549, 334, 560));
     this.myAxes.push(new Box2DBoxEdge ( 334, 560, 321, 547));
@@ -54,7 +52,7 @@ function GlassSurface () {
     this.myAxes.push(new Box2DBoxEdge ( 94, 582, 84, 565));
     this.myAxes.push(new Box2DBoxEdge ( 84, 565, 79, 541));
     this.myAxes.push(new Box2DBoxEdge ( 79, 541, 63, 510));
-//3D
+    //3D
     this.myAxes.push(new Box2DBoxEdge ( 145, 619, 157, 605));
     this.myAxes.push(new Box2DBoxEdge ( 157, 605, 170, 596));
     this.myAxes.push(new Box2DBoxEdge ( 170, 596, 192, 593));
@@ -78,8 +76,57 @@ function GlassSurface () {
     this.myAxes.push(new Box2DBoxEdge ( 164, 688, 181, 695));
     this.myAxes.push(new Box2DBoxEdge ( 181, 695, 202, 692));
 
+//Links oben
 
-//rechts
+    this.myAxes.push(new Box2DBoxEdge ( 17, 768-512, 38, 768-542));
+    this.myAxes.push(new Box2DBoxEdge ( 38, 768-542, 40, 768-561));
+    this.myAxes.push(new Box2DBoxEdge ( 40, 768-561, 48, 768-584));
+    this.myAxes.push(new Box2DBoxEdge ( 48, 768-584, 62, 768-607));
+    this.myAxes.push(new Box2DBoxEdge ( 62, 768-607, 79, 768-625));
+    this.myAxes.push(new Box2DBoxEdge ( 79, 768-625, 98, 768-639));
+    this.myAxes.push(new Box2DBoxEdge ( 98, 768-639, 124, 768-655));
+    this.myAxes.push(new Box2DBoxEdge ( 124, 768-655, 162, 768-669));
+    this.myAxes.push(new Box2DBoxEdge ( 162, 768-669, 175, 768-682));
+    this.myAxes.push(new Box2DBoxEdge ( 175, 768-682, 194, 768-691));
+    this.myAxes.push(new Box2DBoxEdge ( 194, 768-691, 217, 768-691));
+    this.myAxes.push(new Box2DBoxEdge ( 217, 768-691, 239, 768-681));
+    this.myAxes.push(new Box2DBoxEdge ( 239, 768-681, 250, 768-666));
+    this.myAxes.push(new Box2DBoxEdge ( 250, 768-666, 254, 768-652));
+    this.myAxes.push(new Box2DBoxEdge ( 254, 768-652, 297, 75));
+
+    this.myAxes.push(new Box2DBoxEdge ( 159, 768-624, 140, 768-618));
+    this.myAxes.push(new Box2DBoxEdge ( 140, 768-618, 123, 768-609));
+    this.myAxes.push(new Box2DBoxEdge ( 123, 768-609, 111, 768-600));
+    this.myAxes.push(new Box2DBoxEdge ( 111, 768-600, 94, 768-582));
+    this.myAxes.push(new Box2DBoxEdge ( 94, 768-582, 84, 768-565));
+    this.myAxes.push(new Box2DBoxEdge ( 84, 768-565, 79, 768-541));
+    this.myAxes.push(new Box2DBoxEdge ( 79, 768-541, 63, 768-510));
+
+    this.myAxes.push(new Box2DBoxEdge ( 224, 768-594, 204, 768-592));
+    this.myAxes.push(new Box2DBoxEdge ( 204, 768-592, 183, 768-598));
+    this.myAxes.push(new Box2DBoxEdge ( 183, 768-598, 168, 768-609));
+    this.myAxes.push(new Box2DBoxEdge ( 168, 768-609, 159, 768-624));
+
+    //3D
+    this.myAxes.push(new Box2DBoxEdge ( 146, 768-671, 162, 768-669));
+    this.myAxes.push(new Box2DBoxEdge ( 19, 768-515, 20, 768-552));
+    this.myAxes.push(new Box2DBoxEdge ( 20, 768-552, 28, 768-586));
+    this.myAxes.push(new Box2DBoxEdge ( 28, 768-586, 45, 768-609));
+    this.myAxes.push(new Box2DBoxEdge ( 45, 768-609, 66, 768-631));
+    this.myAxes.push(new Box2DBoxEdge ( 66, 768-631, 89, 768-647));
+    this.myAxes.push(new Box2DBoxEdge ( 89, 768-647, 117, 768-661));
+    this.myAxes.push(new Box2DBoxEdge ( 117, 768-661, 146, 768-671));
+    this.myAxes.push(new Box2DBoxEdge ( 146, 768-671, 164, 768-688));
+    this.myAxes.push(new Box2DBoxEdge ( 164, 768-688, 181, 768-695));
+    this.myAxes.push(new Box2DBoxEdge ( 181, 768-695, 202, 768-692));
+
+    this.myAxes.push(new Box2DBoxEdge ( 145, 768-619, 157, 768-605));
+    this.myAxes.push(new Box2DBoxEdge ( 157, 768-605, 170, 768-596));
+    this.myAxes.push(new Box2DBoxEdge ( 170, 768-596, 192, 768-593));
+
+
+
+//rechts oben
     this.myAxes.push(new Box2DBoxEdge ( 1024-17, 768-512, 1024-38, 768-542));
     this.myAxes.push(new Box2DBoxEdge ( 1024-38, 768-542, 1024-40, 768-561));
     this.myAxes.push(new Box2DBoxEdge ( 1024-40, 768-561, 1024-48, 768-584));
@@ -96,10 +143,8 @@ function GlassSurface () {
     this.myAxes.push(new Box2DBoxEdge ( 1024-250, 768-666, 1024-254, 768-652));
     this.myAxes.push(new Box2DBoxEdge ( 1024-254, 768-652, 1024-270, 768-659));
     this.myAxes.push(new Box2DBoxEdge ( 1024-270, 768-659, 1024-294, 768-661));
-    this.myAxes.push(new Box2DBoxEdge ( 1024-294, 768-661, 1024-320, 768-651));
-    this.myAxes.push(new Box2DBoxEdge ( 1024-320, 768-651, 1024-339, 768-634));
-    this.myAxes.push(new Box2DBoxEdge ( 1024-339, 768-634, 1024-348, 768-609));
-    this.myAxes.push(new Box2DBoxEdge ( 1024-348, 768-609, 1024-369, 768-596));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-294, 768-661, 1024-333, 768-698));
+
 
     this.myAxes.push(new Box2DBoxEdge ( 1024-350, 768-549, 1024-334, 768-560));
     this.myAxes.push(new Box2DBoxEdge ( 1024-334, 768-560, 1024-321, 768-547));
@@ -153,6 +198,160 @@ function GlassSurface () {
     this.myAxes.push(new Box2DBoxEdge ( 1024-164, 768-688, 1024-181, 768-695));
     this.myAxes.push(new Box2DBoxEdge ( 1024-181, 768-695, 1024-202, 768-692));
 
+
+    //rechts unten
+    this.myAxes.push(new Box2DBoxEdge ( 1024-17, 512, 1024-38, 542));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-38, 542, 1024-40, 561));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-40, 561, 1024-48, 584));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-48, 584, 1024-62, 607));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-62, 607, 1024-79, 625));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-79, 625, 1024-98, 639));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-98, 639, 1024-124, 655));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-124, 655, 1024-162, 669));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-162, 669, 1024-175, 682));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-175, 682, 1024-194, 691));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-194, 691, 1024-217, 691));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-217, 691, 1024-239, 681));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-239, 681, 1024-250, 666));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-250, 666, 1024-254, 652));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-254, 652, 1024-297, 768-75));
+
+    this.myAxes.push(new Box2DBoxEdge ( 1024-159, 624, 1024-140, 618));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-140, 618, 1024-123, 609));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-123, 609, 1024-111, 600));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-111, 600, 1024-94, 582));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-94, 582, 1024-84, 565));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-84, 565, 1024-79, 541));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-79, 541, 1024-63, 510));
+
+    this.myAxes.push(new Box2DBoxEdge ( 1024-224, 594, 1024-204, 592));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-204, 592, 1024-183, 598));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-183, 598, 1024-168, 609));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-168, 609, 1024-159, 624));
+
+    //3D
+    this.myAxes.push(new Box2DBoxEdge ( 1024-146, 671, 1024-162, 669));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-19, 515, 1024-20, 552));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-20, 552, 1024-28, 586));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-28, 586, 1024-45, 609));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-45, 609, 1024-66, 631));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-66, 631, 1024-89, 647));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-89, 647, 1024-117, 661));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-117, 661, 1024-146, 671));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-146, 671, 1024-164, 688));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-164, 688, 1024-181, 695));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-181, 695, 1024-202, 692));
+
+    this.myAxes.push(new Box2DBoxEdge ( 1024-145, 619, 1024-157, 605));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-157, 605, 1024-170, 596));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-170, 596, 1024-192, 593));
+
+    //Abschuss links unten
+    this.myAxes.push(new Box2DBoxEdge (491, 699, 488, 674 ));
+    this.myAxes.push(new Box2DBoxEdge (488, 674, 476, 652 ));
+    this.myAxes.push(new Box2DBoxEdge (476, 652, 449, 629 ));
+    this.myAxes.push(new Box2DBoxEdge (449, 629, 469, 628 ));
+    this.myAxes.push(new Box2DBoxEdge (469, 628, 488, 641 ));
+    this.myAxes.push(new Box2DBoxEdge (488, 641, 503, 660 ));
+    this.myAxes.push(new Box2DBoxEdge (503, 660, 510, 679 ));
+    this.myAxes.push(new Box2DBoxEdge (510, 679, 513, 699 ));
+    this.myAxes.push(new Box2DBoxEdge (513, 699, 491, 699 ));
+
+    //Abschuss links oben
+    this.myAxes.push(new Box2DBoxEdge (491, 768-699, 488, 768-674 ));
+    this.myAxes.push(new Box2DBoxEdge (488, 768-674, 476, 768-652 ));
+    this.myAxes.push(new Box2DBoxEdge (476, 768-652, 449, 768-629 ));
+    this.myAxes.push(new Box2DBoxEdge (449, 768-629, 469, 768-628 ));
+    this.myAxes.push(new Box2DBoxEdge (469, 768-628, 488, 768-641 ));
+    this.myAxes.push(new Box2DBoxEdge (488, 768-641, 503, 768-660 ));
+    this.myAxes.push(new Box2DBoxEdge (503, 768-660, 510, 768-679 ));
+    this.myAxes.push(new Box2DBoxEdge (510, 768-679, 513, 768-699 ));
+    this.myAxes.push(new Box2DBoxEdge (513, 768-699, 491, 768-699 ));
+
+    //Abschuss rechts unten
+    this.myAxes.push(new Box2DBoxEdge (557, 768-700, 562, 768-672 ));
+    this.myAxes.push(new Box2DBoxEdge (562, 768-672, 572, 768-655 ));
+    this.myAxes.push(new Box2DBoxEdge (572, 768-655, 585, 768-639 ));
+    this.myAxes.push(new Box2DBoxEdge (585, 768-639, 600, 768-629 ));
+    this.myAxes.push(new Box2DBoxEdge (600, 768-629, 622, 768-630 ));
+    this.myAxes.push(new Box2DBoxEdge (622, 768-630, 596, 768-650 ));
+    this.myAxes.push(new Box2DBoxEdge (596, 768-650, 587, 768-665 ));
+    this.myAxes.push(new Box2DBoxEdge (587, 768-665, 581, 768-691 ));
+    this.myAxes.push(new Box2DBoxEdge (581, 768-691, 578, 768-700 ));
+    this.myAxes.push(new Box2DBoxEdge (578, 768-700, 557, 768-700 ));
+
+    //Abschuss rechts oben
+    this.myAxes.push(new Box2DBoxEdge (557, 700, 562, 672 ));
+    this.myAxes.push(new Box2DBoxEdge (562, 672, 572, 655 ));
+    this.myAxes.push(new Box2DBoxEdge (572, 655, 585, 639 ));
+    this.myAxes.push(new Box2DBoxEdge (585, 639, 600, 629 ));
+    this.myAxes.push(new Box2DBoxEdge (600, 629, 622, 630 ));
+    this.myAxes.push(new Box2DBoxEdge (622, 630, 596, 650 ));
+    this.myAxes.push(new Box2DBoxEdge (596, 650, 587, 665 ));
+    this.myAxes.push(new Box2DBoxEdge (587, 665, 581, 691 ));
+    this.myAxes.push(new Box2DBoxEdge (581, 691, 578, 700 ));
+    this.myAxes.push(new Box2DBoxEdge (578, 700, 557, 700 ));
+
+    //Boje groß unten
+    this.myAxes.push(new Box2DBoxEdge (612, 483, 624, 469 ));
+    this.myAxes.push(new Box2DBoxEdge (624, 469, 643, 464 ));
+    this.myAxes.push(new Box2DBoxEdge (643, 464, 662, 477 ));
+    this.myAxes.push(new Box2DBoxEdge (662, 477, 665, 500 ));
+    this.myAxes.push(new Box2DBoxEdge (665, 500, 645, 519 ));
+    this.myAxes.push(new Box2DBoxEdge (645, 519, 620, 513 ));
+    this.myAxes.push(new Box2DBoxEdge (620, 513, 612, 497 ));
+    this.myAxes.push(new Box2DBoxEdge (612, 497, 612, 483 ));
+
+    //Boje groß oben
+    this.myAxes.push(new Box2DBoxEdge (1024-612, 768-483, 1024-624, 768-469 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-624, 768-469, 1024-643, 768-464 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-643, 768-464, 1024-662, 768-477 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-662, 768-477, 1024-665, 768-500 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-665, 768-500, 1024-645, 768-519 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-645, 768-519, 1024-620, 768-513 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-620, 768-513, 1024-612, 768-497 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-612, 768-497, 1024-612, 768-483 ));
+
+    //Boje klein unten
+    this.myAxes.push(new Box2DBoxEdge (718, 443, 733, 447 ));
+    this.myAxes.push(new Box2DBoxEdge (733, 447, 743, 464 ));
+    this.myAxes.push(new Box2DBoxEdge (743, 464, 734, 481 ));
+    this.myAxes.push(new Box2DBoxEdge (734, 481, 715, 485 ));
+    this.myAxes.push(new Box2DBoxEdge (715, 485, 703, 477 ));
+    this.myAxes.push(new Box2DBoxEdge (703, 477, 700, 464 ));
+    this.myAxes.push(new Box2DBoxEdge (700, 464, 707, 448 ));
+    this.myAxes.push(new Box2DBoxEdge (707, 448, 718, 443 ));
+
+    //Boje klein oben
+    this.myAxes.push(new Box2DBoxEdge (1024-718, 768-443, 1024-733, 768-447 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-733, 768-447, 1024-743, 768-464 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-743, 768-464, 1024-734, 768-481 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-734, 768-481, 1024-715, 768-485 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-715, 768-485, 1024-703, 768-477 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-703, 768-477, 1024-700, 768-464 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-700, 768-464, 1024-707, 768-448 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-707, 768-448, 1024-718, 768-443 ));
+
+    //Boje mini unten
+    this.myAxes.push(new Box2DBoxEdge (706, 552, 720, 544 ));
+    this.myAxes.push(new Box2DBoxEdge (720, 544, 723, 531 ));
+    this.myAxes.push(new Box2DBoxEdge (723, 531, 711, 519 ));
+    this.myAxes.push(new Box2DBoxEdge (711, 519, 697, 520 ));
+    this.myAxes.push(new Box2DBoxEdge (697, 520, 689, 532 ));
+    this.myAxes.push(new Box2DBoxEdge (689, 532, 694, 546 ));
+    this.myAxes.push(new Box2DBoxEdge (694, 546, 706, 552 ));
+
+    //Boje mini oben
+    this.myAxes.push(new Box2DBoxEdge (1024-706, 768-552, 1024-720, 768-544 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-720, 768-544, 1024-723, 768-531 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-723, 768-531, 1024-711, 768-519 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-711, 768-519, 1024-697, 768-520 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-697, 768-520, 1024-689, 768-532 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-689, 768-532, 1024-694, 768-546 ));
+    this.myAxes.push(new Box2DBoxEdge (1024-694, 768-546, 1024-706, 768-552 ));
+
+
+
     this.draw = function(ctx) {
         for (var i = 0; i < this.myAxes.length; ++i) {
             this.myAxes[i].draw(ctx);
@@ -184,6 +383,9 @@ function Box2DBoxEdge ( x1,  y1, x2, y2) {
     this.fixDef.density = 1.0;
     this.fixDef.friction = 0.5;
     this.fixDef.restitution = 1.0;
+    if (x1 > 870 || x2 > 870 || x1 < 140 || x2 < 140){
+        this.fixDef.restitution = 0.5;
+    }
 
     this.bodyDef = new b2BodyDef;
     this.bodyDef.type = b2Body.b2_staticBody;

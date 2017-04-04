@@ -40,22 +40,22 @@ function Mill ( myX, myY ) {
     this.createNewObjects(100,4,true,90);
 
     this.shoot = function(ns) {
-        console.log("shoot!");
+        //console.log("shoot!");
         this.motor.SetMotorSpeed(ns * 10);//*msd);
-        console.log("angle in shoot: "+this.myAngle);
+        //console.log("angle in shoot: "+this.myAngle);
         this.shot = !this.shot;
         if (this.myAngle <= 0.8) {
         //    this.motor.SetMotorSpeed(-ns * 5);//*msd);
 
             console.log("&back");
         }
-        console.log("angle after shoot: "+this.myAngle);
+        //console.log("angle after shoot: "+this.myAngle);
         //this.motor.SetMotorSpeed(-ns * 5);//*msd);
     };
 
     this.changeSpeed = function(ns) {
         this.motor.SetMotorSpeed(ns *4);//*msd);
-        console.log("motorSpeed: "+ns);
+        //console.log("motorSpeed: "+ns);
     };
 
     this.stopMotor = function() {
@@ -67,7 +67,7 @@ function Mill ( myX, myY ) {
     this.draw = function(ctx) {
         var ang = this.motor.GetJointAngle();
         this.myAngle = Math.abs(ang % (Math.PI*2));
-        console.log("paddle angle: "+this.myAngle);
+        //console.log("paddle angle: "+this.myAngle);
         //console.log(" ang ya normalizado ------->" + this.myAngle);
 
         ctx.fillStyle = "rgba(0, 150, 0, 1)";

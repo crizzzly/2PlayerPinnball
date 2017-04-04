@@ -20,10 +20,12 @@ var SCALE = 30;
 var myBall;
 var ballCount = 0; //anzahl der Bälle, die gespielt werden
 var ballLimit = 5;
+var ballPower = 0;
 
 //Variable für alle "krummen" Wände
 var mySurface;
 var myBondary = [];
+var myBuoys = [];
 
 //images
 var backgroundImage;
@@ -52,6 +54,8 @@ var collision1, collision2;
 
 var player1, player2, name; //instance of class Player
 var activePlayer; //stores the last player who hit the ball
+var p1StartPos = [];
+var p2StartPos = [];
 var points, goalPoints;
 var highscore;
 var gameOver = false;
@@ -81,7 +85,7 @@ function onReady() {
     ctx = canvas.getContext('2d');
     frameCounter = 0;
     canvas.addEventListener('mousedown', pick);
-    canvas.addEventListener('mousemove', pick);
+    //canvas.addEventListener('mousemove', pick);
     canvas.addEventListener('mouseup', reload);
 
     // setup world
@@ -92,23 +96,34 @@ function onReady() {
 
     // loading pictures
     backgroundImage = new Image();
-    logo = new Image();
-
-    backgroundImage.src = "img/17-03-30 Marine.jpg";
-    logo.src = "img/Logo.png";
-    //coin.src = "img/coin16px.png";
+    backgroundImage.src = "img/17-04-04Marine.png";
 
     // adding boundaries
-    mySurface = new GlassSurface();
-    myBondary[0] = new Box2DBondary(0,70, canvas.width, 2);
-    myBondary[1] = new Box2DBondary(0, canvas.height - 70, canvas.width, 2)
+    mySurface = new Surface();
+    //side walls
+    myBondary.push(new Box2DBondary(0,55, canvas.width, 2));
+    myBondary.push(new Box2DBondary(0, 70, 514, 2));
+    myBondary.push(new Box2DBondary(513, 55, 2, 15));
+    myBondary.push(new Box2DBondary(790, 70, 230, 2));
+    myBondary.push(new Box2DBondary(0, canvas.height - 53, canvas.width, 2));
+    myBondary.push(new Box2DBondary(0, canvas.height - 68, 514, 2));
+    myBondary.push(new Box2DBondary(790 , canvas.height - 68, 230, 2));
+    //left side
+    myBuoys.push(new Box2DKCircle(207, 645, 17, true));
+    myBuoys.push(new Box2DKCircle(280, 600, 20, true));
+    myBuoys.push(new Box2DKCircle(232, 529, 17, true));
+    //right side
+    myBuoys.push(new Box2DKCircle(822, 127, 17, true));
+    myBuoys.push(new Box2DKCircle(741, 170, 20, true));
+    myBuoys.push(new Box2DKCircle(795, 240, 17, true));
 
-
-    // creating windmill
+    // creating windmill & ball
     myMotor1 = new WindMill(canvas.width/2, canvas.height/2);
+    myBall = new Box2DCircle(canvas.width/2+10, 64, 10);
+    p1StartPos = [canvas.width/2+10, 64];
+    p2StartPos = [canvas.width/2-10, canvas.height - 55];
 
-
-    myBall = new Box2DCircle(canvas.width/2 + 20, canvas.height/2 +20, 10);
+    //from where the ball will be pulled in the game
 
     /*
     für Torwart
@@ -142,8 +157,8 @@ function onReady() {
          */
         playerLeft = new Box2DKCircle(mouseX, mouseY, 40);
         playerRight = new Box2DKCircle(mouseX, mouseY, 40);
-
     }
+
     //für Positionen der Kreise; xPosition bedeutet nicht Bewegung auf xAchse
     yPosition = canvas.height/2;
     xPosition = canvas.height/2;
@@ -196,9 +211,7 @@ function onReady() {
             //when ball hits the player's kCircle, player is set as activePlayer
             if (a instanceof Box2DKCircle) activePlayer = a;
             else if (b instanceof Box2DKCircle) activePlayer = a;
-
         }
-
     };
     world.SetContactListener(listener);
 
@@ -214,34 +227,24 @@ function draw () {
     // for background
     ctx.drawImage(backgroundImage, 0, 0);
 
-    //Logo left side
-    ctx.save();
-    ctx.translate(462, 384);
-    ctx.scale(0.3, 0.3);
-    ctx.rotate(90);
-    ctx.drawImage(logo, 0, 0);
-    ctx.restore();
-    //logo right side
-    ctx.save();
-    ctx.translate(562, 384);
-    ctx.scale(0.3, 0.3);
-    ctx.rotate(-90);
-    ctx.drawImage(logo, 0, 0);
-    ctx.restore();
-
     //side bondaries
     for (var i = 0; i < myBondary.length; i++){
         myBondary[i].draw(ctx);
     }
+    for(var i = 0; i < myBuoys.length; i++){
+        myBuoys[i].draw(ctx);
+    }
 
     //windmill
     myMotor1.draw(ctx);
+
+    //player controllers
     if (paddleIsActive){
         for(var i = 0; i < pLeftPaddles.length; i++) {
             //pRightPaddles[i].draw(ctx);
             pLeftPaddles[i].draw(ctx);
         }
-        console.log("paddle.angle: "+pLeftPaddles[0].myAngle);
+        //console.log("paddle.angle: "+pLeftPaddles[0].myAngle);
 
         if (pLeftPaddles[0].myAngle <= 0.8 && pLeftPaddles[0].shot == true){
             pLeftPaddles[0].shoot(1.0);
@@ -254,10 +257,46 @@ function draw () {
         playerRight.draw(ctx);
         playerLeft.setLocation(100, yPosition);
         playerRight.setLocation(900, xPosition);
-
-
         //console.log("xPosition = " + xPosition);
     }
+
+    //creating and drawing coins
+    if (Math.random() < 0.01){
+        var myCurrCoin = new Image();
+        myCurrCoin.src = "img/coin16px.png";
+        coin.push(myCurrCoin);
+        life.push(1);
+    }
+
+    for(var i = 0; i < coin.length; i++){
+        var xPos = Math.random()*(canvas.width-200)+100;
+        var yPos = Math.random()*(canvas.height-200)+100;
+        coinX.push(xPos);
+        coinY.push(yPos);
+
+        ctx.globalAlpha = 0.5;
+        ctx.drawImage(coin[i], coinX[i], coinY[i]);
+        life[i]++;
+
+        //vll auch in ne klasse packen??
+        if (life[i] >200){
+            coin.splice(i, 1);
+            life.splice(i, 1);
+        }
+
+        var a = coinX[i]-myBall.miX;
+        var b = coinY[i]- myBall.miY;
+        var distance = Math.sqrt(a*a + b*b);
+        var minDist = 12;
+
+        if (distance < minDist){
+            explosion(coinX[i], coinY[i], false);
+            coin.splice(i, 1);
+            console.log("coin splice");
+            life.splice(i, 1);
+        }
+    }
+    ctx.globalAlpha = 1.0;
 
     /*
     if limit of balls is not reached, draw ball and set gravity.
@@ -266,31 +305,29 @@ function draw () {
     if limit of balls is reached, set value of gameOver to "true", add player and points to the highscore
     draw the highscore.
      */
-
     if (ballCount < ballLimit) {
         //draw ball and define gravity settings
         myBall.draw(ctx);
         if (myBall.miX < canvas.width/2){
-            world.SetGravity(new b2Vec2(-10, 0));
+            world.SetGravity(new b2Vec2(-15, 0));
         }
         else {
-            world.SetGravity(new b2Vec2(10, 0));
+            world.SetGravity(new b2Vec2(15, 0));
         }
-
 
         if (myBall.miX >= canvas.width+10) {
             ballCount++;
             player1.addToScore(goalPoints);
             var ballX = Math.random()* canvas.width/2 + canvas.width/4;
             var ballY = Math.random()* canvas.height/2 + canvas.height/4;
-            myBall.setLocation(ballX, ballY);
+            myBall.setLocation(p2StartPos[0], p2StartPos[1]);
         }
         if (myBall.miX <= -10) {
             ballCount++;
             player2.addToScore(goalPoints);
             var ballX = Math.random()* canvas.width/2 + canvas.width/4;
             var ballY = Math.random()* canvas.height/2 + canvas.height/4;
-            myBall.setLocation(ballX, ballY);
+            myBall.setLocation(p1StartPos[0], p1StartPos[1]);
         }
         //myBall.draw(ctx);
     }
@@ -314,47 +351,6 @@ function draw () {
             }
         }
     }
-
-
-    //creating and drawing coins
-    if (Math.random() < 0.01){
-        var myCurrCoin = new Image();
-        myCurrCoin.src = "img/coin16px.png";
-        coin.push(myCurrCoin);
-        life.push(1);
-    }
-
-    for(var i = 0; i < coin.length; i++){
-        var xPos = Math.random()*(canvas.width-200)+100;
-        var yPos = Math.random()*(canvas.height-200)+100;
-        coinX.push(xPos);
-        coinY.push(yPos);
-
-        ctx.drawImage(coin[i], coinX[i], coinY[i]);
-        life[i]++;
-       // coin[i].life++;
-
-
-        //vll auch in ne klasse packen??
-        if (life[i] >200){
-            coin.splice(i, 1);
-            life.splice(i, 1);
-        }
-
-        var a = coinX[i]-myBall.miX;
-        var b = coinY[i]- myBall.miY;
-        var distance = Math.sqrt(a*a + b*b);
-        var minDist = 12;
-
-        if (distance < minDist){
-            explosion(coinX[i], coinY[i], false);
-            coin.splice(i, 1);
-            console.log("coin splice");
-            life.splice(i, 1);
-        }
-    }
-
-
 
     // printing text in canvas
     ctx.fillStyle = "#bbbbbb";
@@ -383,26 +379,24 @@ function draw () {
 function pick(event) {
     mouseX = event.layerX;
     mouseY = event.layerY;
-    //console.log("mouse x = " + mouseX + "   mouse y = " + mouseY);
+    console.log("mouse x = " + mouseX + "   mouse y = " + mouseY);
 }
 
 //Steuerung der Spieler:
 function keyInput(e) {
     e = e || window.event;
 
-    switch (e.keyCode) {
-        case 38: // up arrow
-            yPosition -= 20;
+    switch (e.keyCode){
+        case 87: // w key
+            yPosition -= 20; //linker spieler
             break;
-        case 40: // down arrow
+        case 65: // down arrow
             yPosition += 20;
             break;
-
-
-        case 37: // left arrow
-            xPosition -= 20;
+        case 79: // o key
+            xPosition -= 20; // rechter spieler
             break;
-        case 39: // right arrow
+        case 76:// right arrow
             xPosition += 20;
             break;
 
@@ -416,49 +410,56 @@ function keyInput(e) {
             //if (paddleIsActive) {
             console.log("p-key pressed");
                 pLeftPaddles[0].shoot(-1.0);//paddleMove(pLeftPaddles[0]);
-                console.log("p-key pressed");
-            //  }
-
+                //  }
+            break;
+        case 83: //s-key to shoot ball
+            ballPower += 1;
+            shootBall();
             break;
     }
 }
 
 function explosion (x,  y, isKonfetti ) {
-
-    console.log("explosion!!! Konfetti = "+isKonfetti);
-    if (isKonfetti){
+    console.log("explosion!!! Konfetti = " + isKonfetti);
+    if (isKonfetti) {
         x = mouseX;
         y = mouseY;
     }
-    else{
-        if (activePlayer === player1){
+    else {
+        if (activePlayer === player1) {
             player1.addToScore(points);
         }
-        else if (activePlayer === player2){
+        else if (activePlayer === player2) {
             player2.addToScore(points);
         }
     }
 
-    var miniSize = Math.random()+2;
+    var miniSize = Math.random() + 2;
     for (var i = 0; i < 10; i++) {
-        var currentObj = new Box2DCircle(x+miniSize, y+miniSize, miniSize);
+        var currentObj = new Box2DCircle(x + miniSize, y + miniSize, miniSize);
         konfetti.push(currentObj);
         /*
-        var frequency = 0.3;
-        konfetti.red = Math.sin(frequency + 0) * 127 + 128;
-        konfetti.green = Math.sin(frequency + 2) * 127 + 128;
-        konfetti.blue = Math.sin(frequency + 4) * 127 + 128;
-        */
+         var frequency = 0.3;
+         konfetti.red = Math.sin(frequency + 0) * 127 + 128;
+         konfetti.green = Math.sin(frequency + 2) * 127 + 128;
+         konfetti.blue = Math.sin(frequency + 4) * 127 + 128;
+         */
         //exploted[i].explosion(mouseX, mouseY);
     }
 
-    for (var i= 0; i< konfetti.length; i++){
-
+    for (var i = 0; i < konfetti.length; i++) {
         konfetti[i].explosion(mouseX, mouseY);
     }
-    //console.log("mouse x = " + mouseX + "   mouse y = " + mouseY);
+    //console.log("mouse x = " + mouseX + "   mouse y = " + mouseY);}
 }
 
+function shootBall () {
+    var impulsDirection = 0;
+    if (myBall.miY < canvas.height/4)  impulsDirection = 90; //1/4 * Math.PI;
+    if (myBall.miY > (canvas.height-canvas.height/4))  impulsDirection = -90; //3/4 * Math.PI;
+
+    myBall.applyImpulse(impulsDirection, 15);
+}
 
 function reload () {
     if (gameOver) {
@@ -471,22 +472,6 @@ function reload () {
     }
 }
 
-function paddleMove(paddle) {
-    var speed = 5;
-    console.log("called paddleMove method: ");
-    paddle.changeSpeed(speed);
-    console.log("Speed = -5");
-
-    if (paddle.myAngle < 0.1) {
-        paddle.changeSpeed(-speed);
-        console.log("Speed = 5");
-    }
-    if (paddle.myAngle > Math.PI / 2) {
-        paddle.stopMotor();
-        //pLeftPaddles[0].changeSpeed(3);
-    }
-
-}
 
 // for animation request  ---------------------------------------------------
 window.requestAnimFrame = (function(){
