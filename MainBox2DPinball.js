@@ -47,7 +47,7 @@ var xPosition;
 var playerLeft, playerRight;
 var pLeftPaddles = [];
 var pRightPaddles = [];
-var paddleIsActive = true;
+var paddleIsActive = false;
 var collisions = 0;
 var kCollisions= 0;
 var collision1, collision2;
@@ -59,6 +59,10 @@ var p2StartPos = [];
 var points, goalPoints;
 var highscore;
 var gameOver = false;
+
+var specials;
+
+
 
 
 
@@ -98,16 +102,20 @@ function onReady() {
     backgroundImage = new Image();
     backgroundImage.src = "img/17-04-04Marine.png";
 
+
     // adding boundaries
     mySurface = new Surface();
     //side walls
     myBondary.push(new Box2DBondary(0,55, canvas.width, 2));
     myBondary.push(new Box2DBondary(0, 70, 514, 2));
     myBondary.push(new Box2DBondary(513, 55, 2, 15));
+    myBondary.push(new Box2DBondary(556, 55, 2, 15));
     myBondary.push(new Box2DBondary(790, 70, 230, 2));
     myBondary.push(new Box2DBondary(0, canvas.height - 53, canvas.width, 2));
     myBondary.push(new Box2DBondary(0, canvas.height - 68, 514, 2));
     myBondary.push(new Box2DBondary(790 , canvas.height - 68, 230, 2));
+    myBondary.push(new Box2DBondary(513, canvas.height-55, 2, 15));
+    myBondary.push(new Box2DBondary(556, canvas.height-55, 2, 15));
     //left side
     myBuoys.push(new Box2DKCircle(207, 645, 17, true));
     myBuoys.push(new Box2DKCircle(280, 600, 20, true));
@@ -176,11 +184,15 @@ function onReady() {
     player2 = new Player(name);
     activePlayer = player1;
 
+    window.alert("'p' zum abschießen des balls ;)\n\nfür die to do liste:\nMittellinie einfügen - ähnlich wie bei ner kante & mit Schattierung auf Fläche und Elementen optische trennung erzeugen");
+
 
     //amount of points u get per colision
     points = 20;
     goalPoints = 50;
     highscore = new Highscore();
+
+    //specials = new Special();
 
 
     // collision listener
@@ -206,12 +218,22 @@ function onReady() {
         if((a instanceof Box2DKCircle && b instanceof Box2DCircle)||(a instanceof Box2DCircle && b instanceof Box2DKCircle)) {
             if (a instanceof Box2DCircle) a.alpha= 0.8;
             if (b instanceof Box2DCircle) b.alpha= 0.8;
+            console.log("hit a kCircle");
             collision2.play();
             kCollisions ++;
+            console.log("hit kCircle")
             //when ball hits the player's kCircle, player is set as activePlayer
-            if (a instanceof Box2DKCircle) activePlayer = a;
-            else if (b instanceof Box2DKCircle) activePlayer = a;
+            if (myBall.miX < 140) {
+            activePlayer = player1;
+            console.log("active player: "+player1.name);
+            }
+            else if (myBall.miX > 879) {
+                activePlayer = player2;
+                console.log("active player: "+player1.name);
+
+            }
         }
+
     };
     world.SetContactListener(listener);
 
@@ -226,6 +248,11 @@ function draw () {
     var thisFrameTime = (thisLoop=new Date) - lastLoop;
     // for background
     ctx.drawImage(backgroundImage, 0, 0);
+
+    ctx.beginPath();
+    ctx.fillStyle = "#2e2e2e";
+    ctx.rect(canvas.width-2, 0, 4, canvas.height);
+    ctx.stroke;
 
     //side bondaries
     for (var i = 0; i < myBondary.length; i++){
@@ -283,13 +310,11 @@ function draw () {
             coin.splice(i, 1);
             life.splice(i, 1);
         }
+        var distance = getDistance(coinX[i], coinY[i], myBall.miX, myBall.miY);
 
-        var a = coinX[i]-myBall.miX;
-        var b = coinY[i]- myBall.miY;
-        var distance = Math.sqrt(a*a + b*b);
         var minDist = 12;
 
-        if (distance < minDist){
+        if (distance < minDist) {
             explosion(coinX[i], coinY[i], false);
             coin.splice(i, 1);
             console.log("coin splice");
@@ -308,28 +333,10 @@ function draw () {
     if (ballCount < ballLimit) {
         //draw ball and define gravity settings
         myBall.draw(ctx);
-        if (myBall.miX < canvas.width/2){
-            world.SetGravity(new b2Vec2(-15, 0));
-        }
-        else {
-            world.SetGravity(new b2Vec2(15, 0));
-        }
 
-        if (myBall.miX >= canvas.width+10) {
-            ballCount++;
-            player1.addToScore(goalPoints);
-            var ballX = Math.random()* canvas.width/2 + canvas.width/4;
-            var ballY = Math.random()* canvas.height/2 + canvas.height/4;
-            myBall.setLocation(p2StartPos[0], p2StartPos[1]);
-        }
-        if (myBall.miX <= -10) {
-            ballCount++;
-            player2.addToScore(goalPoints);
-            var ballX = Math.random()* canvas.width/2 + canvas.width/4;
-            var ballY = Math.random()* canvas.height/2 + canvas.height/4;
-            myBall.setLocation(p1StartPos[0], p1StartPos[1]);
-        }
-        //myBall.draw(ctx);
+        ballActions();
+
+
     }
     else{
         if(!gameOver) {
@@ -352,6 +359,8 @@ function draw () {
         }
     }
 
+    //circleOfLife(ctx, 0);
+
     // printing text in canvas
     ctx.fillStyle = "#bbbbbb";
     ctx.font = "normal 11px Roboto-Medium";
@@ -371,9 +380,7 @@ function draw () {
     fpsOut.innerHTML = "current frame = " +frameCounter+ "   currente frame rate = "+(1000/frameTime).toFixed(1) + " fps";
     frameCounter += 1;
     requestAnimFrame(draw);
-}
-
-
+} //End of draw
 
 // for events  ---------------------------------------------------
 function pick(event) {
@@ -419,11 +426,51 @@ function keyInput(e) {
     }
 }
 
+//returns the distance of two points
+function getDistance(x1, y1, x2, y2) {
+    var a = x1 - x2;
+    var b = y1 - y2;
+    var distance = Math.sqrt(a * a + b * b);
+    return distance;
+}
+
+function ballActions() {
+    //set gravity of both sides
+    if (myBall.miX < canvas.width / 2) {
+        world.SetGravity(new b2Vec2(-15, 0));
+    }
+    else {
+        world.SetGravity(new b2Vec2(15, 0));
+    }
+    //check if ball is out of canvas, add points to player's score
+    if (myBall.miX >= canvas.width + 10) {
+        ballCount++;
+        player1.addToScore(goalPoints);
+        myBall.setLocation(p2StartPos[0], p2StartPos[1]);
+    }
+    if (myBall.miX <= -10) {
+        ballCount++;
+        player2.addToScore(goalPoints);
+        myBall.setLocation(p1StartPos[0], p1StartPos[1]);
+    }
+
+    //check if ball is in the left "ball" (playerView) and call konfetti function 199/122
+    var dis1 = getDistance(199, 122, myBall.miX, myBall.miY);
+    var dis2 = getDistance(819, 641, myBall.miX, myBall.miY);
+    if (dis1 < 10){
+        explosion(199, 122, true);
+    }
+    if (dis2 < 10){
+        explosion(819, 641, true);
+    }
+    //myBall.draw(ctx);
+}
+
 function explosion (x,  y, isKonfetti ) {
     console.log("explosion!!! Konfetti = " + isKonfetti);
     if (isKonfetti) {
-        x = mouseX;
-        y = mouseY;
+       // x = mouseX;
+       // y = mouseY;
     }
     else {
         if (activePlayer === player1) {
@@ -437,6 +484,12 @@ function explosion (x,  y, isKonfetti ) {
     var miniSize = Math.random() + 2;
     for (var i = 0; i < 10; i++) {
         var currentObj = new Box2DCircle(x + miniSize, y + miniSize, miniSize);
+        var dir;
+        if (isKonfetti){
+            if (x < 260)  dir = Math.PI/8 + Math.random() - 0.5;
+            if (x >771)  dir = 5* Math.PI/8 + Math.random() - 0.5;
+            currentObj.applyImpulse(dir, 20);
+        }
         konfetti.push(currentObj);
         /*
          var frequency = 0.3;
@@ -446,9 +499,10 @@ function explosion (x,  y, isKonfetti ) {
          */
         //exploted[i].explosion(mouseX, mouseY);
     }
-
-    for (var i = 0; i < konfetti.length; i++) {
-        konfetti[i].explosion(mouseX, mouseY);
+    if(!isKonfetti){
+        for (var i = 0; i < konfetti.length; i++) {
+            konfetti[i].explosion(mouseX, mouseY);
+        }
     }
     //console.log("mouse x = " + mouseX + "   mouse y = " + mouseY);}
 }
@@ -470,6 +524,68 @@ function reload () {
             gameOver = false;
         }
     }
+}
+
+function circleOfLife (ctx, f){
+    //var ani = function (f) {
+        //clearAll();x
+       //f++;
+        var alpha = 0.1;
+        var pointX = [];
+        var pointY = [];
+        var p2X = [];
+        var p2Y = [];
+        var p3X = [];
+        var p3Y = [];
+        var p4X = [];
+        var p4Y = [];
+        ctx.fillStyle = "rgba (0, 0, 0, " + alpha + ")";
+        ctx.beginPath();
+        ctx.rect(0, 0, canvas.width, canvas.height);
+        ctx.closePath();
+        ctx.fill();
+        alpha = 0.5;
+        var mX = canvas.width / 2;
+        var mY = canvas.height / 2;
+        var r = 75;
+        ctx.StrokeStyle = "rgba( 154, 50, 205, "+alpha+")";
+        ctx.fillStyle = "rgba (50, 50, 50, 50, 0)";
+        ctx.beginPath();
+        ctx.arc(mX, mY, r, 0, Math.PI * 2);
+        //ctx.closePath();
+        //ctx.stroke();
+        for (var i = 0; i < 6; i++) {
+            pointX[i] = (r * Math.cos(i * 2 * Math.PI / 6 )) + mX;
+            pointY[i] = (r * Math.sin(i * 2 * Math.PI / 6 )) + mY;
+            ctx.arc(pointX[i], pointY[i], r, 0, 2 * Math.PI);
+
+            for (var j = 0; j < 6; j++) {
+                p2X[j] = (r * Math.cos(j * 2 * Math.PI / 6 +f)) + pointX[i];
+                p2Y[j] = (r * Math.sin(j * 2 * Math.PI / 6 +f)) + pointY[i];
+                //ctx.beginPath();
+                ctx.arc(p2X[j], p2Y[j], r, 0, 2 * Math.PI);
+
+                for (var g = 0; g < 6; g++) {
+                    p3X[g] = (r * Math.cos(g * 2 * Math.PI / 6 -f)) + p2X[j];
+                    p3Y[g] = (r * Math.sin(g * 2 * Math.PI / 6 -f)) + p2Y[j];
+                    //ctx.beginPath();
+                    ctx.arc(p3X[g], p3Y[g], r, 0, 2 * Math.PI);
+
+                    for (var h = 0; h < 6; h++) {
+                        p4X[h] = (r * Math.cos(h * 2 * Math.PI / 6)) + p2X[g];
+                        p4Y[h] = (r * Math.sin(h * 2 * Math.PI / 6)) + p2Y[g];
+                        //ctx.beginPath();
+                        ctx.arc(p4X[h], p4Y[h], r, 0, 2 * Math.PI);
+                    }
+                }
+            }
+        }
+
+        ctx.closePath();
+        ctx.stroke();
+    //};
+    //animate(ani);
+
 }
 
 
