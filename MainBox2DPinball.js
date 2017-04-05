@@ -151,9 +151,9 @@ function onReady() {
     mouseY = canvas.height/2;
 
     if (paddleIsActive) {
-        var mill = new Mill(60, 253, Math.PI/4, 5*Math.PI/8);
-        //mill.setAngle(-45);
-       // mill.stopMotor();
+        var mill = new Mill(60, 253, 2*Math.PI/8, 5*Math.PI/8, 1);
+        pLeftPaddles.push(mill);
+        var mill = new Mill(60, canvas.height - 253,-5*Math.PI/8, -2*Math.PI/8,  -1);//-5*Math.PI/8, -Math.PI/4, -1);//(10*Math.PI/8), (12*Math.PI/8));
         pLeftPaddles.push(mill);
         /*mill = new Mill(50, canvas.height + 50);
         mill.stopMotor();
@@ -192,7 +192,7 @@ function onReady() {
     player2 = new Player(name);
     activePlayer = player1;
 
-    window.alert("'p' zum abschießen des balls ;)\n\nfür die to do liste:\nMittellinie einfügen - ähnlich wie bei ner kante & mit Schattierung auf Fläche und Elementen optische trennung erzeugen");
+    window.alert("beim unteren Paddle mit negativem Winkel arbeiten??? ");
 
 
     //amount of points u get per colision
@@ -280,11 +280,16 @@ function draw () {
         for(var i = 0; i < pLeftPaddles.length; i++) {
             //pRightPaddles[i].draw(ctx);
             pLeftPaddles[i].draw(ctx);
+            //console.log("paddle"+i+".angle: "+pLeftPaddles[i].myAngle);
         }
-        //console.log("paddle.angle: "+pLeftPaddles[0].myAngle);
 
-        if (pLeftPaddles[0].myAngle <= 0.8 && pLeftPaddles[0].shot == true){
-            pLeftPaddles[0].shoot(1.0);
+        //console.log("paddle"+1+".angle: "+pLeftPaddles[1].myAngle);
+            if (pLeftPaddles[0].myAngle <= 0.8 && pLeftPaddles[0].shot == true) {
+                pLeftPaddles[0].shoot(1.0);
+            }
+
+        if (pLeftPaddles[1].myAngle <= 0.8 && pLeftPaddles[1].shot == true){
+            pLeftPaddles[1].shoot(-1.0);
         }
 
     }
@@ -405,14 +410,30 @@ function keyInput(e) {
     e = e || window.event;
 
     switch (e.keyCode){
+        case 83: //s-key handle left paddle
+            if (paddleIsActive) {
+                console.log("s-key pressed");
+                pLeftPaddles[1].shoot(1.0);//paddleMove(pLeftPaddles[0]);
+            }
+
+            break;
+
         case 87: // w key
-            yPosition -= 20; //linker spieler
+            if (paddleIsActive) {
+                console.log("w-key pressed");
+                pLeftPaddles[0].shoot(-1.0); //linker Spieler oberes Paddle
+            }
+            else {
+                yPosition -= 20; //linker spieler
+            }
             break;
         case 65: // down arrow
             yPosition += 20;
             break;
         case 79: // o key
-            xPosition -= 20; // rechter spieler
+
+            xPosition -= 20;
+             // rechter spieler
             break;
         case 76:// right arrow
             xPosition += 20;
@@ -425,12 +446,10 @@ function keyInput(e) {
             break;
 
         case 80: //p-Taste für paddle links oben
-            //if (paddleIsActive) {
-            console.log("p-key pressed");
-                pLeftPaddles[0].shoot(-1.0);//paddleMove(pLeftPaddles[0]);
-                //  }
+
             break;
-        case 83: //s-key to shoot ball
+
+        case 66: //b-key for ball
             ballPower += 1;
             shootBall();
             break;

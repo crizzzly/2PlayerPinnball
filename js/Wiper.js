@@ -3,14 +3,14 @@
  */
 
 
-function Mill ( myX, myY, la, ua) {
+function Mill ( myX, myY, la, ua, dir) {
     var paddleWidth = 70;
     var paddleHeight= 5;
     this.myAngle= 0;
 
 
 
-    this.createNewObjects = function(trq, msd, on, la, ua){
+    this.createNewObjects = function(trq, msd, on, la, ua, dir){
         var anchor = new Box2DBoxDual ( myX,  myY,  paddleHeight, paddleHeight, true);
         this.paddle = new Box2DBoxDual ( myX,  myY,  paddleWidth, paddleHeight, false);
 
@@ -20,7 +20,7 @@ function Mill ( myX, myY, la, ua) {
 
         this.joint.Initialize(this.anchor_body, this.paddle_body, this.paddle_body.GetWorldCenter(),this.anchor_body.GetWorldCenter);
         this.joint.maxMotorTorque = 10000;//trq; //standardWert: 100
-        this.joint.motorSpeed = msd;
+        this.joint.motorSpeed = msd * dir;
         this.joint.enableMotor = on;
         this.joint.referenceAngle = 0;// refAng;//Math.PI/4;//Math.PI/2;
 
@@ -39,12 +39,14 @@ function Mill ( myX, myY, la, ua) {
         this.motor = this.jointPaddle;
     };
 
-    this.createNewObjects(100,4,true, la, ua);
+    this.createNewObjects(100,4,true, la, ua, dir);
 
     this.shoot = function(ns) {
-        //console.log("shoot!");
-        this.motor.SetMotorSpeed(ns * 10);//*msd);
-        //console.log("angle in shoot: "+this.myAngle);
+        var speed = ns*10;
+        console.log("shoot!");
+        this.motor.SetMotorSpeed(speed);//*msd);
+        console.log("angle in shoot: "+this.myAngle);
+        console.log("motorSpeed in shoot: "+(speed));
         this.shot = !this.shot;
         if (this.myAngle <= 0.8) {
         //    this.motor.SetMotorSpeed(-ns * 5);//*msd);
@@ -69,7 +71,7 @@ function Mill ( myX, myY, la, ua) {
     this.draw = function(ctx) {
         var ang = this.motor.GetJointAngle();
         this.myAngle = Math.abs(ang % (Math.PI*2));
-        console.log("paddle angle: "+this.myAngle);
+        //console.log("paddle angle: "+this.myAngle);
         //console.log(" ang ya normalizado ------->" + this.myAngle);
 
         ctx.fillStyle = "rgba(0, 150, 0, 1)";
@@ -79,10 +81,10 @@ function Mill ( myX, myY, la, ua) {
         ctx.fill();
         this.paddle.draw(ctx);
 
-        console.log("Lower Angle: "+this.joint.lowerAngle);
+        /*console.log("Lower Angle: "+this.joint.lowerAngle);
         console.log("Upper Angle: "+this.joint.upperAngle);
         console.log("La: "+la);
-        console.log("Ua: "+ua);
+        console.log("Ua: "+ua); */
     };
 
 
