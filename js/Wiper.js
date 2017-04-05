@@ -19,7 +19,7 @@ function Mill ( myX, myY, la, ua, dir) {
         this.joint = new revoluteJointDef();
 
         this.joint.Initialize(this.anchor_body, this.paddle_body, this.paddle_body.GetWorldCenter(),this.anchor_body.GetWorldCenter);
-        this.joint.maxMotorTorque = 10000;//trq; //standardWert: 100
+        this.joint.maxMotorTorque = 9000;//trq; //standardWert: 100 //10000;//
         this.joint.motorSpeed = msd * dir;
         this.joint.enableMotor = on;
         this.joint.referenceAngle = 0;// refAng;//Math.PI/4;//Math.PI/2;

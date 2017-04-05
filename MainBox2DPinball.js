@@ -60,6 +60,8 @@ var p2StartPos = [];
 var points, goalPoints;
 var highscore;
 var gameOver = false;
+var start;
+var startScreen = true;
 
 var specials;
 var blackHole1X, blackHole1Y,blackHole2X, blackHole2Y;
@@ -103,6 +105,7 @@ function onReady() {
     // loading pictures
     backgroundImage = new Image();
     backgroundImage.src = "img/17-04-04Marine.png";
+    start = new StartScreen();
 
 
     // adding boundaries
@@ -150,22 +153,19 @@ function onReady() {
     mouseX = canvas.width/2;
     mouseY = canvas.height/2;
 
-    if (paddleIsActive) {
-        var mill = new Mill(60, 253, 2*Math.PI/8, 5*Math.PI/8, 1);
+    //if (paddleIsActive) {
+        //left side paddles
+        var mill = new Mill(60, 267, 2*Math.PI/8, 5*Math.PI/8, 1);
         pLeftPaddles.push(mill);
-        var mill = new Mill(60, canvas.height - 253,-5*Math.PI/8, -2*Math.PI/8,  -1);//-5*Math.PI/8, -Math.PI/4, -1);//(10*Math.PI/8), (12*Math.PI/8));
+        var mill = new Mill(60, canvas.height - 267, -(5*Math.PI/8 + 0.1), -(2*Math.PI/8 + 0.1),  -1);//-5*Math.PI/8, -Math.PI/4, -1);//(10*Math.PI/8), (12*Math.PI/8));
         pLeftPaddles.push(mill);
-        /*mill = new Mill(50, canvas.height + 50);
-        mill.stopMotor();
-        pLeftPaddles.push(mill);
-        var mill = new Mill(canvas.width - 50, canvas.height - 50);
-        mill.stopMotor();
+        //right side paddles
+        var mill = new Mill(canvas.width-60, 267, 3*Math.PI/8, 3*Math.PI/4,  -1);//5*Math.PI/8, 2*Math.PI/8, -1);
         pRightPaddles.push(mill);
-        mill = new Mill(canvas.width - 50, canvas.height + 50);
-        mill.stopMotor();
-        pRightPaddles.push(mill);*/
-    }
-    else {
+        var mill = new Mill(canvas.width-60, canvas.height - 267, -3*Math.PI/4, -3*Math.PI/8,  1);//-5*Math.PI/8, -Math.PI/4, -1);//(10*Math.PI/8), (12*Math.PI/8));
+        pRightPaddles.push(mill);
+   // }
+   // else {
         //Kreise:
         /*
         playerLeft = new Box2DKCircle(100, canvas.height/2, 40);
@@ -173,7 +173,7 @@ function onReady() {
          */
         playerLeft = new Box2DKCircle(mouseX, mouseY, 40);
         playerRight = new Box2DKCircle(mouseX, mouseY, 40);
-    }
+    //}
 
     //für Positionen der Kreise; xPosition bedeutet nicht Bewegung auf xAchse
     yPosition = canvas.height/2;
@@ -192,7 +192,7 @@ function onReady() {
     player2 = new Player(name);
     activePlayer = player1;
 
-    window.alert("beim unteren Paddle mit negativem Winkel arbeiten??? ");
+   // window.alert("beim unteren Paddle mit negativem Winkel arbeiten??? ");
 
 
     //amount of points u get per colision
@@ -278,18 +278,28 @@ function draw () {
     //player controllers
     if (paddleIsActive){
         for(var i = 0; i < pLeftPaddles.length; i++) {
-            //pRightPaddles[i].draw(ctx);
+            pRightPaddles[i].draw(ctx);
             pLeftPaddles[i].draw(ctx);
             //console.log("paddle"+i+".angle: "+pLeftPaddles[i].myAngle);
         }
 
         //console.log("paddle"+1+".angle: "+pLeftPaddles[1].myAngle);
-            if (pLeftPaddles[0].myAngle <= 0.8 && pLeftPaddles[0].shot == true) {
+         if (pLeftPaddles[0].myAngle <= 0.9 && pLeftPaddles[0].shot == true) {
                 pLeftPaddles[0].shoot(1.0);
             }
 
-        if (pLeftPaddles[1].myAngle <= 0.8 && pLeftPaddles[1].shot == true){
+        if (pLeftPaddles[1].myAngle <= 0.9 && pLeftPaddles[1].shot == true){
             pLeftPaddles[1].shoot(-1.0);
+        }
+        console.log("paddle0.angle: "+pLeftPaddles[0].myAngle);
+        console.log("paddle1.angle: "+pLeftPaddles[1].myAngle);
+
+        if (pRightPaddles[0].myAngle <= 0.9 && pRightPaddles[0].shot == true) {
+            pRightPaddles[0].shoot(-1.0);
+        }
+
+        if (pRightPaddles[1].myAngle <= 0.8 && pRightPaddles[1].shot == true){
+            pRightPaddles[1].shoot(1.0);
         }
 
     }
@@ -383,6 +393,7 @@ function draw () {
 
     ctx.fillText("Player1: "+ player1.name+" - " +player1.score+" points. Player2: "+ player2.name+" - " +player2.score+" points.", 10, canvas.height-5);
 
+    start.draw(ctx);
     world.Step(
         1 / 60   //frame-rate
         ,  10       //velocity iterations
@@ -415,7 +426,6 @@ function keyInput(e) {
                 console.log("s-key pressed");
                 pLeftPaddles[1].shoot(1.0);//paddleMove(pLeftPaddles[0]);
             }
-
             break;
 
         case 87: // w key
@@ -428,15 +438,25 @@ function keyInput(e) {
             }
             break;
         case 65: // down arrow
+            if (paddleIsActive) {
+                console.log("w-key pressed");
+                pRightPaddles[1].shoot(-1.0); //linker Spieler oberes Paddle
+            }
+            else {
             yPosition += 20;
-            break;
+            break;}
         case 79: // o key
 
             xPosition -= 20;
              // rechter spieler
             break;
         case 76:// right arrow
-            xPosition += 20;
+            if (paddleIsActive) {
+                console.log("w-key pressed");
+                pRightPaddles[0].shoot(1.0); //linker Spieler oberes Paddle
+            }
+            else {
+            xPosition += 20;}
             break;
 
         case 75: //k-Taste für Konfetti
@@ -560,12 +580,25 @@ function shootBall () {
 }
 
 function reload () {
+    if(startScreen){
+        if (mouseY >canvas.height/2+150 &&mouseY < canvas.height / 2 + 200) {
+            if (mouseX > canvas.width / 2 - 150 && mouseX < canvas.width / 2 - 50) {
+                paddleIsActive = false;
+                startScreen = false;
+            }
+            else if (mouseX < canvas.width / 2 + 150 && mouseX > canvas.width / 2 + 50) {
+                paddleIsActive = true;
+                startScreen = false;
+            }
+        }
+    }
     if (gameOver) {
         if (mouseX > canvas.width / 2 - 50 && mouseX < canvas.width / 2 + 50 && mouseY > canvas.height / 2 + 150 && mouseY < canvas.height / 2 + 200) {
             player1.delete();
             player2.delete();
             ballCount = 0;
             gameOver = false;
+            startScreen = true;
         }
     }
 }
