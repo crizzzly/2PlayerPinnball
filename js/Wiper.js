@@ -3,12 +3,14 @@
  */
 
 
-function Mill ( myX, myY ) {
+function Mill ( myX, myY, la, ua) {
     var paddleWidth = 70;
     var paddleHeight= 5;
     this.myAngle= 0;
 
-    this.createNewObjects = function(trq, msd, on, refAng) {
+
+
+    this.createNewObjects = function(trq, msd, on, la, ua){
         var anchor = new Box2DBoxDual ( myX,  myY,  paddleHeight, paddleHeight, true);
         this.paddle = new Box2DBoxDual ( myX,  myY,  paddleWidth, paddleHeight, false);
 
@@ -20,14 +22,14 @@ function Mill ( myX, myY ) {
         this.joint.maxMotorTorque = 10000;//trq; //standardWert: 100
         this.joint.motorSpeed = msd;
         this.joint.enableMotor = on;
-        this.joint.referenceAngle = 0;//Math.PI/2;
+        this.joint.referenceAngle = 0;// refAng;//Math.PI/4;//Math.PI/2;
 
         // offset
         this.joint.localAnchorB.Set(-paddleWidth/2/SCALE,0) ;
 
         this.joint.enableLimit = true;
-        this.joint.lowerAngle = Math.PI/4;//-Math.PI/4;
-        this.joint.upperAngle =  5*Math.PI/8; //0;
+        this.joint.lowerAngle = la;//refAng;//-Math.PI/4; la;//
+        this.joint.upperAngle = ua;//5*Math.PI/8 - refAng;// 5*Math.PI/8; //0;ua;//
         this.shot = false;
 
         // create joint it self
@@ -37,7 +39,7 @@ function Mill ( myX, myY ) {
         this.motor = this.jointPaddle;
     };
 
-    this.createNewObjects(100,4,true,90);
+    this.createNewObjects(100,4,true, la, ua);
 
     this.shoot = function(ns) {
         //console.log("shoot!");
@@ -67,7 +69,7 @@ function Mill ( myX, myY ) {
     this.draw = function(ctx) {
         var ang = this.motor.GetJointAngle();
         this.myAngle = Math.abs(ang % (Math.PI*2));
-        //console.log("paddle angle: "+this.myAngle);
+        console.log("paddle angle: "+this.myAngle);
         //console.log(" ang ya normalizado ------->" + this.myAngle);
 
         ctx.fillStyle = "rgba(0, 150, 0, 1)";
@@ -76,6 +78,11 @@ function Mill ( myX, myY ) {
         ctx.closePath();
         ctx.fill();
         this.paddle.draw(ctx);
+
+        console.log("Lower Angle: "+this.joint.lowerAngle);
+        console.log("Upper Angle: "+this.joint.upperAngle);
+        console.log("La: "+la);
+        console.log("Ua: "+ua);
     };
 
 

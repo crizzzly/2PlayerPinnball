@@ -18,6 +18,7 @@ var frameTime = 0, lastLoop = new Date, thisLoop;
 var world;
 var SCALE = 30;
 var myBall;
+var myBall2;
 var ballCount = 0; //anzahl der Bälle, die gespielt werden
 var ballLimit = 5;
 var ballPower = 0;
@@ -47,7 +48,7 @@ var xPosition;
 var playerLeft, playerRight;
 var pLeftPaddles = [];
 var pRightPaddles = [];
-var paddleIsActive = false;
+var paddleIsActive = true;
 var collisions = 0;
 var kCollisions= 0;
 var collision1, collision2;
@@ -61,6 +62,7 @@ var highscore;
 var gameOver = false;
 
 var specials;
+var blackHole1X, blackHole1Y,blackHole2X, blackHole2Y;
 
 
 
@@ -131,6 +133,12 @@ function onReady() {
     p1StartPos = [canvas.width/2+10, 64];
     p2StartPos = [canvas.width/2-10, canvas.height - 55];
 
+    //die schwarzen Löcher, die den Ball verschwinden lassen
+    blackHole1X = 430;
+    blackHole1Y = 100;
+    blackHole2X = canvas.width - 430;
+    blackHole2Y = canvas.height - 100;
+
     //from where the ball will be pulled in the game
 
     /*
@@ -143,7 +151,7 @@ function onReady() {
     mouseY = canvas.height/2;
 
     if (paddleIsActive) {
-        var mill = new Mill(60, 200);
+        var mill = new Mill(60, 253, Math.PI/4, 5*Math.PI/8);
         //mill.setAngle(-45);
        // mill.stopMotor();
         pLeftPaddles.push(mill);
@@ -251,8 +259,10 @@ function draw () {
 
     ctx.beginPath();
     ctx.fillStyle = "#2e2e2e";
-    ctx.rect(canvas.width-2, 0, 4, canvas.height);
-    ctx.stroke;
+    ctx.arc(blackHole1X, blackHole1Y, 10, 0, 2*Math.PI);
+    ctx.arc(blackHole2X, blackHole2Y, 10, 0, 2*Math.PI);
+    ctx.closePath();
+    ctx.fill();
 
     //side bondaries
     for (var i = 0; i < myBondary.length; i++){
@@ -330,6 +340,7 @@ function draw () {
     if limit of balls is reached, set value of gameOver to "true", add player and points to the highscore
     draw the highscore.
      */
+
     if (ballCount < ballLimit) {
         //draw ball and define gravity settings
         myBall.draw(ctx);
@@ -462,6 +473,20 @@ function ballActions() {
     }
     if (dis2 < 10){
         explosion(819, 641, true);
+    }
+
+    var dis1 = getDistance(blackHole1X, blackHole1Y, myBall.miX, myBall.miY);
+    var dis2 = getDistance(blackHole2X, blackHole2Y, myBall.miX, myBall.miY);
+    if (dis1 < 10){
+        myBall.disappear();
+        player1.addToScore(goalPoints);
+        myBall2 = new Box2DCircle(p1StartPos[0], p1StartPos[1], 10);
+
+    }
+    if (dis2 < 10){
+        myBall.disappear();
+        player2.addToScore(goalPoints);
+        myBall2 = new Box2DCircle(p2StartPos[0], p2StartPos[1], 10);
     }
     //myBall.draw(ctx);
 }

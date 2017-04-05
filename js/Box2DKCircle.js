@@ -54,18 +54,6 @@ function Box2DKCircle ( x,  y,  r, fixed) {
 
     this.draw = function(ctx) {
         this.update();
-        /*
-        if (!fixed) {
-            if (this.miY > canvas.height / 2 + 98) {
-                this.miY = (canvas.height / 2) + 98;
-                //this.miY = this.Object.GetBody().GetPosition().y * SCALE;
-            }
-            if (this.miY < canvas.height / 2 - 98) {
-                this.miY = (canvas.height / 2) - 98;
-                //this.miY = this.Object.GetBody().GetPosition().y * SCALE;
-            }
-
-        } */
             if (fixed) {
                 var alpha = 0.3;
                 ctx.fillStyle = "rgba(100, 100, 100, " + alpha + ")";

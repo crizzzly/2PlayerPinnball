@@ -9,8 +9,13 @@ function Box2DCircle ( x,  y,  r) {
     var b2Body = Box2D.Dynamics.b2Body;
     var b2Vec2 = Box2D.Common.Math.b2Vec2;
 
+    var disappear = false;
+    var radius = r;
+
     this.miX = 0;
     this.miY = 0;
+
+
 
     this.colored = false;
     this.frequency = 0.3;
@@ -58,9 +63,19 @@ function Box2DCircle ( x,  y,  r) {
         this.Object.GetBody().ApplyImpulse(target,applyPoint);
     };
 
+    this.disappear = function () {
+        disappear = !disappear;
+    };
+
     this.draw = function(ctx) {
         this.update();
         var alpha = 0.3;
+        if(disappear){
+            if (r > 0) r-= 0.2;
+        }
+        else{
+            r = radius;
+        }
         if ( this.colored) {
             ctx.fillStyle = "rgba("+this.red+","+this.green+","+this.blue+","+alpha+")";
             ctx.strokeStyle = "rgba("+this.red+","+this.green+","+this.blue+","+alpha+")";
