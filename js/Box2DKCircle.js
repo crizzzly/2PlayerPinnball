@@ -74,6 +74,10 @@ function Box2DKCircle ( x,  y,  r, fixed) {
             ctx.stroke();
 
     };
+    this.destroy = function () {
+        world.DestroyBody(this.Object.GetBody());
+        //this.paddle.Object.GetBody().SetPosition(posAhora);
+    };
 
     this.contains = function (mousePVec) {
         return (this.fixDef.shape.TestPoint(this.Object.GetBody().GetTransform(), mousePVec)) ;

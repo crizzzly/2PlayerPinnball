@@ -47,6 +47,20 @@ function Box2DCircle ( x,  y,  r) {
             new b2Vec2(Math.cos(degrees * (Math.PI / 180)) * power, Math.sin(degrees * (Math.PI / 180)) * power),
             this.Object.GetBody().GetWorldCenter());
     };
+    this.attraction = function (x, y) {
+        var target = new b2Vec2( x / SCALE,y / SCALE);
+        var applyPoint =  this.Object.GetBody().GetPosition();
+        target.x -= applyPoint.x;
+        target.y -= applyPoint.y;
+
+        target.Normalize();
+
+        var force = 0.1;
+        target.x *= force;
+        target.y *= force;
+
+        this.Object.GetBody().ApplyImpulse(target,applyPoint);
+    };
 
     this.explosion = function (x, y) {
         this.colored = true;
@@ -64,18 +78,26 @@ function Box2DCircle ( x,  y,  r) {
     };
 
     this.disappear = function () {
-        disappear = !disappear;
+        disappear = true;
+        if(disappear){
+            if (r > 0.2) {
+                r -= 0.2;
+            }
+            //else r = 0;
+        }
     };
 
+    this.reappear = function (x, y) {
+        if (r < radius-0.2){
+            r+=0.2;
+        }
+    }
     this.draw = function(ctx) {
         this.update();
         var alpha = 0.3;
-        if(disappear){
-            if (r > 0) r-= 0.2;
-        }
-        else{
-            r = radius;
-        }
+        if (disappear) this.disappear();
+        else r = radius;
+
         if ( this.colored) {
             ctx.fillStyle = "rgba("+this.red+","+this.green+","+this.blue+","+alpha+")";
             ctx.strokeStyle = "rgba("+this.red+","+this.green+","+this.blue+","+alpha+")";

@@ -5,12 +5,17 @@
 function Player (player) {
     this.name = player;
     this.score = 0;
+    this.extraBall = 0;
 
 
     this.update = function (points){
         this.score += points
 
     };
+
+    this.addExtraBall = function (n) {
+        this.extraBall += n;
+    }
 
     this.addToScore = function (points){
         this.score += points;

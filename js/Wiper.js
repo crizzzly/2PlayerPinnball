@@ -4,7 +4,7 @@
 
 
 function Mill ( myX, myY, la, ua, dir) {
-    var paddleWidth = 70;
+    var paddleWidth = 50;
     var paddleHeight= 5;
     this.myAngle= 0;
 
@@ -40,6 +40,11 @@ function Mill ( myX, myY, la, ua, dir) {
     };
 
     this.createNewObjects(100,4,true, la, ua, dir);
+
+    this.destroy = function () {
+        world.DestroyBody(this.paddle.Object.GetBody());
+        //this.paddle.Object.GetBody().SetPosition(posAhora);
+    };
 
     this.shoot = function(ns) {
         var speed = ns*10;

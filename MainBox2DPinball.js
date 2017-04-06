@@ -49,6 +49,8 @@ var playerLeft, playerRight;
 var pLeftPaddles = [];
 var pRightPaddles = [];
 var paddleIsActive = true;
+var drawPaddles = true;
+var drawBalls = true;
 var collisions = 0;
 var kCollisions= 0;
 var collision1, collision2;
@@ -64,7 +66,10 @@ var start;
 var startScreen = true;
 
 var specials;
+//specials
+var blackHole1, blackHole2;
 var blackHole1X, blackHole1Y,blackHole2X, blackHole2Y;
+var imgBlackHole;
 
 
 
@@ -107,6 +112,16 @@ function onReady() {
     backgroundImage.src = "img/17-04-04Marine.png";
     start = new StartScreen();
 
+    //die schwarzen Löcher, die den Ball verschwinden lassen
+    imgBlackHole = new Image();
+    imgBlackHole.src ="img/trippy-s.gif"
+    blackHole1X = 400;
+    blackHole1Y = 100;
+    blackHole2X = canvas.width - 400;
+    blackHole2Y = canvas.height - 100;
+    //blackHole1 = new Box2DKCircle(blackHole1X, blackHole1Y, 1, true);
+    //blackHole2 = new Box2DKCircle(blackHole2X, blackHole2Y, 1, true);
+
 
     // adding boundaries
     mySurface = new Surface();
@@ -133,17 +148,11 @@ function onReady() {
     // creating windmill & ball
     myMotor1 = new WindMill(canvas.width/2, canvas.height/2);
     myBall = new Box2DCircle(canvas.width/2+10, 64, 10);
-    p1StartPos = [canvas.width/2+10, 64];
-    p2StartPos = [canvas.width/2-10, canvas.height - 55];
 
-    //die schwarzen Löcher, die den Ball verschwinden lassen
-    blackHole1X = 430;
-    blackHole1Y = 100;
-    blackHole2X = canvas.width - 430;
-    blackHole2Y = canvas.height - 100;
 
     //from where the ball will be pulled in the game
-
+    p1StartPos = [canvas.width/2+10, 64];
+    p2StartPos = [canvas.width/2 +10, canvas.height - 55];
     /*
     für Torwart
      */
@@ -155,24 +164,7 @@ function onReady() {
 
     //if (paddleIsActive) {
         //left side paddles
-        var mill = new Mill(60, 267, 2*Math.PI/8, 5*Math.PI/8, 1);
-        pLeftPaddles.push(mill);
-        var mill = new Mill(60, canvas.height - 267, -(5*Math.PI/8 + 0.1), -(2*Math.PI/8 + 0.1),  -1);//-5*Math.PI/8, -Math.PI/4, -1);//(10*Math.PI/8), (12*Math.PI/8));
-        pLeftPaddles.push(mill);
-        //right side paddles
-        var mill = new Mill(canvas.width-60, 267, 3*Math.PI/8, 3*Math.PI/4,  -1);//5*Math.PI/8, 2*Math.PI/8, -1);
-        pRightPaddles.push(mill);
-        var mill = new Mill(canvas.width-60, canvas.height - 267, -3*Math.PI/4, -3*Math.PI/8,  1);//-5*Math.PI/8, -Math.PI/4, -1);//(10*Math.PI/8), (12*Math.PI/8));
-        pRightPaddles.push(mill);
-   // }
-   // else {
-        //Kreise:
-        /*
-        playerLeft = new Box2DKCircle(100, canvas.height/2, 40);
-        playerRight = new Box2DKCircle(900, canvas.height/2, 40);
-         */
-        playerLeft = new Box2DKCircle(mouseX, mouseY, 40);
-        playerRight = new Box2DKCircle(mouseX, mouseY, 40);
+
     //}
 
     //für Positionen der Kreise; xPosition bedeutet nicht Bewegung auf xAchse
@@ -256,13 +248,18 @@ function draw () {
     var thisFrameTime = (thisLoop=new Date) - lastLoop;
     // for background
     ctx.drawImage(backgroundImage, 0, 0);
-
+    ctx.drawImage(imgBlackHole, blackHole1X-40, blackHole1Y-40);
+    ctx.drawImage(imgBlackHole, blackHole2X-40, blackHole2Y-40);
     ctx.beginPath();
     ctx.fillStyle = "#2e2e2e";
     ctx.arc(blackHole1X, blackHole1Y, 10, 0, 2*Math.PI);
     ctx.arc(blackHole2X, blackHole2Y, 10, 0, 2*Math.PI);
     ctx.closePath();
     ctx.fill();
+
+    //specials.drawTrippy(ctx);
+    //specials.randomTree(ctx);
+    //specials.tunnelLine(ctx);
 
     //side bondaries
     for (var i = 0; i < myBondary.length; i++){
@@ -272,11 +269,36 @@ function draw () {
         myBuoys[i].draw(ctx);
     }
 
+    //startScreem
+    start.draw(ctx);
+
+    //walls made in Surface
+    //mySurface.draw(ctx);
+
     //windmill
     myMotor1.draw(ctx);
 
     //player controllers
     if (paddleIsActive){
+        if(drawPaddles){
+            var mill = new Mill(60, 280, 2*Math.PI/8, 5*Math.PI/8, 1);
+            pLeftPaddles.push(mill);
+            var mill = new Mill(60, canvas.height - 280, -(5*Math.PI/8 + 0.1), -(2*Math.PI/8 + 0.1),  -1);//-5*Math.PI/8, -Math.PI/4, -1);//(10*Math.PI/8), (12*Math.PI/8));
+            pLeftPaddles.push(mill);
+            //right side paddles
+            var mill = new Mill(canvas.width-60, 280, 3*Math.PI/8, 3*Math.PI/4,  -1);//5*Math.PI/8, 2*Math.PI/8, -1);
+            pRightPaddles.push(mill);
+            var mill = new Mill(canvas.width-60, canvas.height - 280, -3*Math.PI/4, -3*Math.PI/8,  1);//-5*Math.PI/8, -Math.PI/4, -1);//(10*Math.PI/8), (12*Math.PI/8));
+            pRightPaddles.push(mill);
+            // }
+            // else {
+            //Kreise:
+            /*
+             playerLeft = new Box2DKCircle(100, canvas.height/2, 40);
+             playerRight = new Box2DKCircle(900, canvas.height/2, 40);
+             */
+            drawPaddles = false;
+        }
         for(var i = 0; i < pLeftPaddles.length; i++) {
             pRightPaddles[i].draw(ctx);
             pLeftPaddles[i].draw(ctx);
@@ -291,20 +313,29 @@ function draw () {
         if (pLeftPaddles[1].myAngle <= 0.9 && pLeftPaddles[1].shot == true){
             pLeftPaddles[1].shoot(-1.0);
         }
-        console.log("paddle0.angle: "+pLeftPaddles[0].myAngle);
-        console.log("paddle1.angle: "+pLeftPaddles[1].myAngle);
+        //console.log("paddle0.angle: "+pLeftPaddles[0].myAngle);
+        //console.log("paddle1.angle: "+pLeftPaddles[1].myAngle);
 
-        if (pRightPaddles[0].myAngle <= 0.9 && pRightPaddles[0].shot == true) {
+        if (pRightPaddles[0].myAngle >= 2.2 && pRightPaddles[0].shot == true) {
             pRightPaddles[0].shoot(-1.0);
+            //console.log("RightPaddle0.angle: "+pRightPaddles[0].myAngle);
         }
 
-        if (pRightPaddles[1].myAngle <= 0.8 && pRightPaddles[1].shot == true){
+        if (pRightPaddles[1].myAngle >= 2.2 && pRightPaddles[1].shot == true){
             pRightPaddles[1].shoot(1.0);
+            //console.log("RightPaddle1.angle: "+pRightPaddles[1].myAngle);
         }
+
+
 
     }
     else {
         // player drawing & moves; für Bewegung der Kreise
+        if(drawBalls){
+            playerLeft = new Box2DKCircle(mouseX, mouseY, 40);
+            playerRight = new Box2DKCircle(mouseX, mouseY, 40);
+            drawBalls = false;
+        }
         playerLeft.draw(ctx);
         playerRight.draw(ctx);
         playerLeft.setLocation(100, yPosition);
@@ -342,7 +373,7 @@ function draw () {
         if (distance < minDist) {
             explosion(coinX[i], coinY[i], false);
             coin.splice(i, 1);
-            console.log("coin splice");
+            //console.log("coin splice");
             life.splice(i, 1);
         }
     }
@@ -365,6 +396,9 @@ function draw () {
 
     }
     else{
+        if(player1.extraBall >0){
+
+        }
         if(!gameOver) {
             highscore.set(player1.name, player2.name, player1.score, player2.score);
             gameOver = true;
@@ -393,7 +427,6 @@ function draw () {
 
     ctx.fillText("Player1: "+ player1.name+" - " +player1.score+" points. Player2: "+ player2.name+" - " +player2.score+" points.", 10, canvas.height-5);
 
-    start.draw(ctx);
     world.Step(
         1 / 60   //frame-rate
         ,  10       //velocity iterations
@@ -421,10 +454,42 @@ function keyInput(e) {
     e = e || window.event;
 
     switch (e.keyCode){
+
+        case 66: //b-key for ball
+            ballPower += 1;
+            shootBall();
+            break;
+
+        case 75: //k-Taste für Konfetti
+            explosion(mouseX, mouseY);
+            //explosion();
+            //explosion();
+            break;
+        case 76: // l key
+            if (paddleIsActive) {
+                console.log("l-key pressed");
+                pRightPaddles[1].shoot(-1.0); //rechter Spieler unteres Paddle
+            }
+            else  xPosition += 20;
+            break;
+        case 79: //o-key
+            if (paddleIsActive) {
+                console.log("o-key pressed");
+                pRightPaddles[0].shoot(1.0); //rechter Spieler oberes Paddle
+            }
+            else xPosition -= 20;
+            break;
+
+        //case 80: //p-Taste für paddle links oben
+            //break;
+
         case 83: //s-key handle left paddle
             if (paddleIsActive) {
                 console.log("s-key pressed");
                 pLeftPaddles[1].shoot(1.0);//paddleMove(pLeftPaddles[0]);
+            }
+            else {
+                yPosition += 20; //linker spieler
             }
             break;
 
@@ -437,42 +502,7 @@ function keyInput(e) {
                 yPosition -= 20; //linker spieler
             }
             break;
-        case 65: // down arrow
-            if (paddleIsActive) {
-                console.log("w-key pressed");
-                pRightPaddles[1].shoot(-1.0); //linker Spieler oberes Paddle
-            }
-            else {
-            yPosition += 20;
-            break;}
-        case 79: // o key
 
-            xPosition -= 20;
-             // rechter spieler
-            break;
-        case 76:// right arrow
-            if (paddleIsActive) {
-                console.log("w-key pressed");
-                pRightPaddles[0].shoot(1.0); //linker Spieler oberes Paddle
-            }
-            else {
-            xPosition += 20;}
-            break;
-
-        case 75: //k-Taste für Konfetti
-            explosion(mouseX, mouseY);
-            //explosion();
-            //explosion();
-            break;
-
-        case 80: //p-Taste für paddle links oben
-
-            break;
-
-        case 66: //b-key for ball
-            ballPower += 1;
-            shootBall();
-            break;
     }
 }
 
@@ -516,15 +546,22 @@ function ballActions() {
 
     var dis1 = getDistance(blackHole1X, blackHole1Y, myBall.miX, myBall.miY);
     var dis2 = getDistance(blackHole2X, blackHole2Y, myBall.miX, myBall.miY);
+    if (dis1< 60) {
+        myBall.attraction(blackHole1Y, blackHole1Y);
+        console.log("Dist blackHole < 60");
+    }
     if (dis1 < 10){
         myBall.disappear();
         player1.addToScore(goalPoints);
+        player1.addExtraBall(1);
         myBall2 = new Box2DCircle(p1StartPos[0], p1StartPos[1], 10);
 
     }
+    if (dis2 < 60) myBall.attraction(blackHole2X, blackHole2Y);
     if (dis2 < 10){
         myBall.disappear();
         player2.addToScore(goalPoints);
+        player1.addExtraBall(1);
         myBall2 = new Box2DCircle(p2StartPos[0], p2StartPos[1], 10);
     }
     //myBall.draw(ctx);
@@ -603,67 +640,7 @@ function reload () {
     }
 }
 
-function circleOfLife (ctx, f){
-    //var ani = function (f) {
-        //clearAll();x
-       //f++;
-        var alpha = 0.1;
-        var pointX = [];
-        var pointY = [];
-        var p2X = [];
-        var p2Y = [];
-        var p3X = [];
-        var p3Y = [];
-        var p4X = [];
-        var p4Y = [];
-        ctx.fillStyle = "rgba (0, 0, 0, " + alpha + ")";
-        ctx.beginPath();
-        ctx.rect(0, 0, canvas.width, canvas.height);
-        ctx.closePath();
-        ctx.fill();
-        alpha = 0.5;
-        var mX = canvas.width / 2;
-        var mY = canvas.height / 2;
-        var r = 75;
-        ctx.StrokeStyle = "rgba( 154, 50, 205, "+alpha+")";
-        ctx.fillStyle = "rgba (50, 50, 50, 50, 0)";
-        ctx.beginPath();
-        ctx.arc(mX, mY, r, 0, Math.PI * 2);
-        //ctx.closePath();
-        //ctx.stroke();
-        for (var i = 0; i < 6; i++) {
-            pointX[i] = (r * Math.cos(i * 2 * Math.PI / 6 )) + mX;
-            pointY[i] = (r * Math.sin(i * 2 * Math.PI / 6 )) + mY;
-            ctx.arc(pointX[i], pointY[i], r, 0, 2 * Math.PI);
 
-            for (var j = 0; j < 6; j++) {
-                p2X[j] = (r * Math.cos(j * 2 * Math.PI / 6 +f)) + pointX[i];
-                p2Y[j] = (r * Math.sin(j * 2 * Math.PI / 6 +f)) + pointY[i];
-                //ctx.beginPath();
-                ctx.arc(p2X[j], p2Y[j], r, 0, 2 * Math.PI);
-
-                for (var g = 0; g < 6; g++) {
-                    p3X[g] = (r * Math.cos(g * 2 * Math.PI / 6 -f)) + p2X[j];
-                    p3Y[g] = (r * Math.sin(g * 2 * Math.PI / 6 -f)) + p2Y[j];
-                    //ctx.beginPath();
-                    ctx.arc(p3X[g], p3Y[g], r, 0, 2 * Math.PI);
-
-                    for (var h = 0; h < 6; h++) {
-                        p4X[h] = (r * Math.cos(h * 2 * Math.PI / 6)) + p2X[g];
-                        p4Y[h] = (r * Math.sin(h * 2 * Math.PI / 6)) + p2Y[g];
-                        //ctx.beginPath();
-                        ctx.arc(p4X[h], p4Y[h], r, 0, 2 * Math.PI);
-                    }
-                }
-            }
-        }
-
-        ctx.closePath();
-        ctx.stroke();
-    //};
-    //animate(ani);
-
-}
 
 
 // for animation request  ---------------------------------------------------
