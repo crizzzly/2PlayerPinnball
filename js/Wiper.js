@@ -48,15 +48,14 @@ function Mill ( myX, myY, la, ua, dir) {
 
     this.shoot = function(ns) {
         var speed = ns*10;
-        console.log("shoot!");
         this.motor.SetMotorSpeed(speed);//*msd);
-        console.log("angle in shoot: "+this.myAngle);
-        console.log("motorSpeed in shoot: "+(speed));
+        //console.log("angle in shoot: "+this.myAngle);
+        //console.log("motorSpeed in shoot: "+(speed));
         this.shot = !this.shot;
         if (this.myAngle <= 0.8) {
         //    this.motor.SetMotorSpeed(-ns * 5);//*msd);
 
-            console.log("&back");
+            //console.log("&back");
         }
         //console.log("angle after shoot: "+this.myAngle);
         //this.motor.SetMotorSpeed(-ns * 5);//*msd);

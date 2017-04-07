@@ -78,30 +78,36 @@ function Box2DCircle ( x,  y,  r) {
     };
 
     this.disappear = function () {
-        disappear = true;
-        if(disappear){
-            if (r > 0.2) {
-                r -= 0.2;
-            }
-            //else r = 0;
-        }
+        disappear = !disappear;
     };
 
     this.reappear = function (x, y) {
-        if (r < radius-0.2){
-            r+=0.2;
+        if (r < radius-0.3){
+            r+=0.3;
         }
-    }
+    };
     this.draw = function(ctx) {
         this.update();
         var alpha = 0.3;
-        if (disappear) this.disappear();
-        else r = radius;
+        if (disappear) {
+            if (r > 0.5) {
+                r -= 0.5;
+            }
+            else {
+                disappear = !disappear;
+            }
+        }
+        else {
+            if (r < radius - 0.5) {
+                r += 0.5;
+                //else r = radius;
+            }
+        }
+
 
         if ( this.colored) {
             ctx.fillStyle = "rgba("+this.red+","+this.green+","+this.blue+","+alpha+")";
             ctx.strokeStyle = "rgba("+this.red+","+this.green+","+this.blue+","+alpha+")";
-
         }
         else {
             ctx.fillStyle = "rgba(51, 190, 0, " + alpha + ")";

@@ -30,7 +30,6 @@ var myBuoys = [];
 
 //images
 var backgroundImage;
-var logo;
 var coin = [];
 var coinX = [];
 var coinY = [];
@@ -65,8 +64,11 @@ var gameOver = false;
 var start;
 var startScreen = true;
 
-var specials;
 //specials
+var specials;
+var randomTree;
+var specialActive = false;
+var specialCount = 0;
 var blackHole1, blackHole2;
 var blackHole1X, blackHole1Y,blackHole2X, blackHole2Y;
 var imgBlackHole;
@@ -112,6 +114,9 @@ function onReady() {
     backgroundImage.src = "img/17-04-04Marine.png";
     start = new StartScreen();
 
+    //special effects
+    specials = new Special();
+    randomTree = new RandomTree();
     //die schwarzen Löcher, die den Ball verschwinden lassen
     imgBlackHole = new Image();
     imgBlackHole.src ="img/trippy-s.gif"
@@ -151,8 +156,8 @@ function onReady() {
 
 
     //from where the ball will be pulled in the game
-    p1StartPos = [canvas.width/2+10, 64];
-    p2StartPos = [canvas.width/2 +10, canvas.height - 55];
+    p1StartPos = [canvas.width/2+40, 64];
+    p2StartPos = [canvas.width/2 +40, canvas.height - 55];
     /*
     für Torwart
      */
@@ -192,7 +197,7 @@ function onReady() {
     goalPoints = 50;
     highscore = new Highscore();
 
-    //specials = new Special();
+
 
 
     // collision listener
@@ -200,28 +205,28 @@ function onReady() {
     listener.BeginContact = function (contact) {
         var a = contact.GetFixtureA().GetBody().GetUserData();
         var b = contact.GetFixtureB().GetBody().GetUserData();
-        // between particles
+        // between P
         if(a instanceof Box2DCircle && b instanceof Box2DCircle) {
             if (a instanceof Box2DCircle) a.alpha= 0.0;
             if (b instanceof Box2DCircle) b.alpha= 0.0;
             collision1.play();
             collisions ++;
-
+            /*
             if (activePlayer === player1){
                 player1.addToScore(points);
             }
             else if (activePlayer === player2){
                 player2.addToScore(points);
-            }
+            }*/
         }
         // between one particle and the kParticle
         if((a instanceof Box2DKCircle && b instanceof Box2DCircle)||(a instanceof Box2DCircle && b instanceof Box2DKCircle)) {
-            if (a instanceof Box2DCircle) a.alpha= 0.8;
-            if (b instanceof Box2DCircle) b.alpha= 0.8;
-            console.log("hit a kCircle");
+            //if (a instanceof Box2DCircle) a.alpha= 0.8;
+            //if (b instanceof Box2DCircle) b.alpha= 0.8;
+            //console.log("hit a kCircle");
             collision2.play();
             kCollisions ++;
-            console.log("hit kCircle")
+            /*
             //when ball hits the player's kCircle, player is set as activePlayer
             if (myBall.miX < 140) {
             activePlayer = player1;
@@ -231,7 +236,28 @@ function onReady() {
                 activePlayer = player2;
                 console.log("active player: "+player1.name);
 
+            }*/
+        }
+
+        // between paddles and circles
+        if((a instanceof Mill && b instanceof Box2DCircle)||(a instanceof Box2DCircle && b instanceof Mill)) {
+            if (a instanceof Box2DCircle) a.alpha= 0.8;
+            if (b instanceof Box2DCircle) b.alpha= 0.8;
+            console.log("hit a kCircle");
+            collision2.play();
+            kCollisions ++;
+            console.log("hit kCircle");
+            /*
+            //when ball hits the player's kCircle, player is set as activePlayer
+            if (myBall.miX < canvas.height) {
+                activePlayer = player1;
+                console.log("active player: "+player1.name);
             }
+            else if (myBall.miX > canvas.height) {
+                activePlayer = player2;
+                console.log("active player: "+player2.name);
+
+            }*/
         }
 
     };
@@ -257,9 +283,18 @@ function draw () {
     ctx.closePath();
     ctx.fill();
 
-    //specials.drawTrippy(ctx);
-    //specials.randomTree(ctx);
-    //specials.tunnelLine(ctx);
+    if (specialActive) {
+       specialCount++;
+        if(specialCount < 300) {
+            //specials.drawTrippy(ctx);
+            //specials.randomTree(ctx);
+
+            // if(frameCounter % 20 == 0)
+            specials.tunnels(ctx);
+        }
+    }
+    else specialCount = 0;
+    randomTree.draw(ctx);
 
     //side bondaries
     for (var i = 0; i < myBondary.length; i++){
@@ -270,7 +305,7 @@ function draw () {
     }
 
     //startScreem
-    start.draw(ctx);
+    //start.draw(ctx);
 
     //walls made in Surface
     //mySurface.draw(ctx);
@@ -281,14 +316,14 @@ function draw () {
     //player controllers
     if (paddleIsActive){
         if(drawPaddles){
-            var mill = new Mill(60, 280, 2*Math.PI/8, 5*Math.PI/8, 1);
+            var mill = new Mill(50, 280, 2*Math.PI/8, 5*Math.PI/8, 1);
             pLeftPaddles.push(mill);
-            var mill = new Mill(60, canvas.height - 280, -(5*Math.PI/8 + 0.1), -(2*Math.PI/8 + 0.1),  -1);//-5*Math.PI/8, -Math.PI/4, -1);//(10*Math.PI/8), (12*Math.PI/8));
+            var mill = new Mill(50, canvas.height - 280, -(5*Math.PI/8 + 0.1), -(2*Math.PI/8 + 0.1),  -1);//-5*Math.PI/8, -Math.PI/4, -1);//(10*Math.PI/8), (12*Math.PI/8));
             pLeftPaddles.push(mill);
             //right side paddles
-            var mill = new Mill(canvas.width-60, 280, 3*Math.PI/8, 3*Math.PI/4,  -1);//5*Math.PI/8, 2*Math.PI/8, -1);
+            var mill = new Mill(canvas.width-50, 280, 3*Math.PI/8, 3*Math.PI/4,  -1);//5*Math.PI/8, 2*Math.PI/8, -1);
             pRightPaddles.push(mill);
-            var mill = new Mill(canvas.width-60, canvas.height - 280, -3*Math.PI/4, -3*Math.PI/8,  1);//-5*Math.PI/8, -Math.PI/4, -1);//(10*Math.PI/8), (12*Math.PI/8));
+            var mill = new Mill(canvas.width-50, canvas.height - 280, -3*Math.PI/4, -3*Math.PI/8,  1);//-5*Math.PI/8, -Math.PI/4, -1);//(10*Math.PI/8), (12*Math.PI/8));
             pRightPaddles.push(mill);
             // }
             // else {
@@ -316,12 +351,12 @@ function draw () {
         //console.log("paddle0.angle: "+pLeftPaddles[0].myAngle);
         //console.log("paddle1.angle: "+pLeftPaddles[1].myAngle);
 
-        if (pRightPaddles[0].myAngle >= 2.2 && pRightPaddles[0].shot == true) {
+        if (pRightPaddles[0].myAngle >= 2.2 && pRightPaddles[0].shot === true) {
             pRightPaddles[0].shoot(-1.0);
             //console.log("RightPaddle0.angle: "+pRightPaddles[0].myAngle);
         }
 
-        if (pRightPaddles[1].myAngle >= 2.2 && pRightPaddles[1].shot == true){
+        if (pRightPaddles[1].myAngle >= 2.2 && pRightPaddles[1].shot === true){
             pRightPaddles[1].shoot(1.0);
             //console.log("RightPaddle1.angle: "+pRightPaddles[1].myAngle);
         }
@@ -467,14 +502,12 @@ function keyInput(e) {
             break;
         case 76: // l key
             if (paddleIsActive) {
-                console.log("l-key pressed");
                 pRightPaddles[1].shoot(-1.0); //rechter Spieler unteres Paddle
             }
             else  xPosition += 20;
             break;
         case 79: //o-key
             if (paddleIsActive) {
-                console.log("o-key pressed");
                 pRightPaddles[0].shoot(1.0); //rechter Spieler oberes Paddle
             }
             else xPosition -= 20;
@@ -485,7 +518,6 @@ function keyInput(e) {
 
         case 83: //s-key handle left paddle
             if (paddleIsActive) {
-                console.log("s-key pressed");
                 pLeftPaddles[1].shoot(1.0);//paddleMove(pLeftPaddles[0]);
             }
             else {
@@ -495,7 +527,6 @@ function keyInput(e) {
 
         case 87: // w key
             if (paddleIsActive) {
-                console.log("w-key pressed");
                 pLeftPaddles[0].shoot(-1.0); //linker Spieler oberes Paddle
             }
             else {
@@ -552,23 +583,29 @@ function ballActions() {
     }
     if (dis1 < 10){
         myBall.disappear();
+        ballLimit++;
+        specialActive = true;
         player1.addToScore(goalPoints);
         player1.addExtraBall(1);
-        myBall2 = new Box2DCircle(p1StartPos[0], p1StartPos[1], 10);
+        myBall.setLocation(p1StartPos[0], p1StartPos[1]);
+        //myBall2 = new Box2DCircle(p1StartPos[0], p1StartPos[1], 10);
 
     }
     if (dis2 < 60) myBall.attraction(blackHole2X, blackHole2Y);
     if (dis2 < 10){
         myBall.disappear();
+        ballLimit++;
+        specialActive = true;
         player2.addToScore(goalPoints);
-        player1.addExtraBall(1);
-        myBall2 = new Box2DCircle(p2StartPos[0], p2StartPos[1], 10);
+        player2.addExtraBall(1);
+        myBall.setLocation(p2StartPos[0], p2StartPos[1]);
+        //myBall2 = new Box2DCircle(p2StartPos[0], p2StartPos[1], 10);
     }
     //myBall.draw(ctx);
 }
 
 function explosion (x,  y, isKonfetti ) {
-    console.log("explosion!!! Konfetti = " + isKonfetti);
+    //console.log("explosion!!! Konfetti = " + isKonfetti);
     if (isKonfetti) {
        // x = mouseX;
        // y = mouseY;

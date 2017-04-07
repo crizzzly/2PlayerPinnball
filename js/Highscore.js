@@ -19,6 +19,7 @@ function Player (player) {
 
     this.addToScore = function (points){
         this.score += points;
+        console.log(this.name+" - "+points+"added to score");
     };
 
     this.delete = function(){
