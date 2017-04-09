@@ -4,7 +4,7 @@
 
 
 function Mill ( myX, myY, la, ua, dir) {
-    var paddleWidth = 50;
+    var paddleWidth = 55;
     var paddleHeight= 5;
     this.myAngle= 0;
 

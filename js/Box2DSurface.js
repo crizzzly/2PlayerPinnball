@@ -6,75 +6,110 @@ function Surface () {
     this.myAxes=[];
 
 //links unten
-    this.myAxes.push(new Box2DBoxEdge ( 17, 512, 38, 542));
-    this.myAxes.push(new Box2DBoxEdge ( 38, 542, 40, 561));
-    this.myAxes.push(new Box2DBoxEdge ( 40, 561, 48, 584));
-    this.myAxes.push(new Box2DBoxEdge ( 48, 584, 62, 607));
-    this.myAxes.push(new Box2DBoxEdge ( 62, 607, 79, 625));
-    this.myAxes.push(new Box2DBoxEdge ( 79, 625, 98, 639));
-    this.myAxes.push(new Box2DBoxEdge ( 98, 639, 124, 655));
-    this.myAxes.push(new Box2DBoxEdge ( 124, 655, 162, 669));
-    this.myAxes.push(new Box2DBoxEdge ( 162, 669, 175, 682));
-    this.myAxes.push(new Box2DBoxEdge ( 175, 682, 194, 691));
-    this.myAxes.push(new Box2DBoxEdge ( 194, 691, 217, 691));
-    this.myAxes.push(new Box2DBoxEdge ( 217, 691, 239, 681));
-    this.myAxes.push(new Box2DBoxEdge ( 239, 681, 250, 666));
-    this.myAxes.push(new Box2DBoxEdge ( 250, 666, 254, 652));
-    this.myAxes.push(new Box2DBoxEdge ( 254, 652, 270, 659));
-    this.myAxes.push(new Box2DBoxEdge ( 270, 659, 294, 661));
-    this.myAxes.push(new Box2DBoxEdge ( 294, 661, 333, 698));
+    var sx = 11;
+    var sy = -16;
+    //rechte wand mit mehreren Kreisen oben dran, incl 2 kurven
+    this.myAxes.push(new Box2DBoxEdge ( 17+sx, 512+sy, 38+sx, 542+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 38+sx, 542+sy, 40+sx, 561+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 40+sx, 561+sy, 48+sx, 584+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 48+sx, 584+sy, 62+sx, 607+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 62+sx, 607+sy, 79+sx, 625+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 79+sx, 625+sy, 98+sx, 639+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 98+sx, 639+sy, 124+sx, 655+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 124+sx, 655+sy, 162+sx, 669+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 162+sx, 669+sy, 175+sx, 682+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 175+sx, 682+sy, 194+sx, 691+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 194+sx, 691+sy, 217+sx, 691+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 217+sx, 691+sy, 239+sx, 681+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 239+sx, 681+sy, 250+sx, 666+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 250+sx, 666+sy, 254+sx, 652+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 254+sx, 652+sy, 270+sx, 659+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 270+sx, 659+sy, 294+sx, 661+sy));
+    //this.myAxes.push(new Box2DBoxEdge ( 294+sx, 661+sy, 333+sx, 698+sy));
 
+    //linke zwei Halbkreise der Bobbels
+    this.myAxes.push(new Box2DBoxEdge ( 350+sx, 549+sy, 334+sx, 560+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 334+sx, 560+sy, 321+sx, 547+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 321+sx, 547+sy, 304+sx, 539+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 304+sx, 539+sy, 282+sx, 536+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 282+sx, 536+sy, 281+sx, 518+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 281+sx, 518+sy, 274+sx, 501+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 274+sx, 501+sy, 262+sx, 489+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 262+sx, 489+sy, 244+sx, 480+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 244+sx, 480+sy, 223+sx, 480+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 223+sx, 480+sy, 207+sx, 457+sy));
 
-    this.myAxes.push(new Box2DBoxEdge ( 350, 549, 334, 560));
-    this.myAxes.push(new Box2DBoxEdge ( 334, 560, 321, 547));
-    this.myAxes.push(new Box2DBoxEdge ( 321, 547, 304, 539));
-    this.myAxes.push(new Box2DBoxEdge ( 304, 539, 282, 536));
-    this.myAxes.push(new Box2DBoxEdge ( 282, 536, 281, 518));
-    this.myAxes.push(new Box2DBoxEdge ( 281, 518, 274, 501));
-    this.myAxes.push(new Box2DBoxEdge ( 274, 501, 262, 489));
-    this.myAxes.push(new Box2DBoxEdge ( 262, 489, 244, 480));
-    this.myAxes.push(new Box2DBoxEdge ( 244, 480, 223, 480));
-    this.myAxes.push(new Box2DBoxEdge ( 223, 480, 207, 457));
-
-    this.myAxes.push(new Box2DBoxEdge ( 165, 516, 186, 540));
-    this.myAxes.push(new Box2DBoxEdge ( 186, 540, 192, 557));
-    this.myAxes.push(new Box2DBoxEdge ( 192, 557, 208, 571));
-    this.myAxes.push(new Box2DBoxEdge ( 208, 571, 228, 578));
-    this.myAxes.push(new Box2DBoxEdge ( 228, 578, 224, 594));
-    this.myAxes.push(new Box2DBoxEdge ( 224, 594, 204, 592));
-    this.myAxes.push(new Box2DBoxEdge ( 204, 592, 183, 598));
-    this.myAxes.push(new Box2DBoxEdge ( 183, 598, 168, 609));
-    this.myAxes.push(new Box2DBoxEdge ( 168, 609, 159, 624));
-    this.myAxes.push(new Box2DBoxEdge ( 159, 624, 140, 618));
-    this.myAxes.push(new Box2DBoxEdge ( 140, 618, 123, 609));
-    this.myAxes.push(new Box2DBoxEdge ( 123, 609, 111, 600));
-    this.myAxes.push(new Box2DBoxEdge ( 111, 600, 94, 582));
-    this.myAxes.push(new Box2DBoxEdge ( 94, 582, 84, 565));
-    this.myAxes.push(new Box2DBoxEdge ( 84, 565, 79, 541));
-    this.myAxes.push(new Box2DBoxEdge ( 79, 541, 63, 510));
+    //mittlerer unterer Teil der Bobbels
+    this.myAxes.push(new Box2DBoxEdge ( 165+sx, 516+sy, 186+sx, 540+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 186+sx, 540+sy, 192+sx, 557+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 192+sx, 557+sy, 208+sx, 571+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 208+sx, 571+sy, 228+sx, 578+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 228+sx, 578+sy, 224+sx, 594+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 224+sx, 594+sy, 204+sx, 592+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 204+sx, 592+sy, 183+sx, 598+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 183+sx, 598+sy, 168+sx, 609+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 168+sx, 609+sy, 159+sx, 624+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 159+sx, 624+sy, 140+sx, 618+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 140+sx, 618+sy, 123+sx, 609+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 123+sx, 609+sy, 111+sx, 600+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 111+sx, 600+sy, 94+sx, 582+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 94+sx, 582+sy, 84+sx, 565+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 84+sx, 565+sy, 79+sx, 541+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 79+sx, 541+sy, 63+sx, 510+sy));
     //3D
-    this.myAxes.push(new Box2DBoxEdge ( 145, 619, 157, 605));
-    this.myAxes.push(new Box2DBoxEdge ( 157, 605, 170, 596));
-    this.myAxes.push(new Box2DBoxEdge ( 170, 596, 192, 593));
+    this.myAxes.push(new Box2DBoxEdge ( 145+sx, 619+sy, 157+sx, 605+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 157+sx, 605+sy, 170+sx, 596+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 170+sx, 596+sy, 192+sx, 593+sy));
 
-    this.myAxes.push(new Box2DBoxEdge ( 208, 591, 211, 579));
-    this.myAxes.push(new Box2DBoxEdge ( 228, 577, 211, 579));
-    this.myAxes.push(new Box2DBoxEdge ( 211, 579, 194, 572));
-    this.myAxes.push(new Box2DBoxEdge ( 194, 572, 182, 564));
-    this.myAxes.push(new Box2DBoxEdge ( 182, 564, 173, 552));
-    this.myAxes.push(new Box2DBoxEdge ( 173, 552, 168, 535));
-    this.myAxes.push(new Box2DBoxEdge ( 168, 535, 165, 516));
+    this.myAxes.push(new Box2DBoxEdge ( 208+sx, 591+sy, 211+sx, 579+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 228+sx, 577+sy, 211+sx, 579+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 211+sx, 579+sy, 194+sx, 572+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 194+sx, 572+sy, 182+sx, 564+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 182+sx, 564+sy, 173+sx, 552+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 173+sx, 552+sy, 168+sx, 535+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 168+sx, 535+sy, 165+sx, 516+sy));
 
-    this.myAxes.push(new Box2DBoxEdge ( 19, 515, 20, 552));
-    this.myAxes.push(new Box2DBoxEdge ( 20, 552, 28, 586));
-    this.myAxes.push(new Box2DBoxEdge ( 28, 586, 45, 609));
-    this.myAxes.push(new Box2DBoxEdge ( 45, 609, 66, 631));
-    this.myAxes.push(new Box2DBoxEdge ( 66, 631, 89, 647));
-    this.myAxes.push(new Box2DBoxEdge ( 89, 647, 117, 661));
-    this.myAxes.push(new Box2DBoxEdge ( 117, 661, 146, 671));
-    this.myAxes.push(new Box2DBoxEdge ( 146, 671, 164, 688));
-    this.myAxes.push(new Box2DBoxEdge ( 164, 688, 181, 695));
-    this.myAxes.push(new Box2DBoxEdge ( 181, 695, 202, 692));
+    this.myAxes.push(new Box2DBoxEdge ( 19+sx, 515+sy, 20+sx, 552+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 20+sx, 552+sy, 28+sx, 586+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 28+sx, 586+sy, 45+sx, 609+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 45+sx, 609+sy, 66+sx, 631+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 66+sx, 631+sy, 89+sx, 647+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 89+sx, 647+sy, 117+sx, 661+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 117+sx, 661+sy, 146+sx, 671+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 146+sx, 671+sy, 164+sx, 688+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 164+sx, 688+sy, 181+sx, 695+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 181+sx, 695+sy, 202+sx, 692+sy));
+    // ende "3d" - sind eigentich Schnittpunkt zwischen wand u boden
+
+    /*
+     !!! neue Röhren!!!
+     !!! WURDE NACH AKTUALISIERUNG DES SPIELFELDS HINZUGEFÜGT!!!
+     !!!       BITTE KEIN X ODER Y ADDIEREN      !!!!
+     */
+    //kleine zusatzwand oben rechts zw bobbel u röhre ins aus
+    this.myAxes.push(new Box2DBoxEdge ( 308, 637, 227, 665));
+    this.myAxes.push(new Box2DBoxEdge ( 227, 665, 221, 672));
+
+    //Wand zwischen 2 Röhren (Abschuss & aus
+    this.myAxes.push(new Box2DBoxEdge (392, 674, 339, 701 ));
+    this.myAxes.push(new Box2DBoxEdge (339, 701, 268, 710 ));
+    this.myAxes.push(new Box2DBoxEdge ( 268, 710, 140, 694 ));
+    this.myAxes.push(new Box2DBoxEdge (  140, 694, 0, 621));
+
+    //wand ganz rechts
+    this.myAxes.push(new Box2DBoxEdge (560, 600, 526, 625 ));
+    this.myAxes.push(new Box2DBoxEdge (526, 625, 510, 668));
+    this.myAxes.push(new Box2DBoxEdge (510, 668, 491, 713));
+    this.myAxes.push(new Box2DBoxEdge ( 491, 713, 462, 733));
+    this.myAxes.push(new Box2DBoxEdge ( 462, 733, 333, 761));
+    this.myAxes.push(new Box2DBoxEdge (333, 761, 174, 760));
+    this.myAxes.push(new Box2DBoxEdge ( 174, 760, 102, 749));
+    this.myAxes.push(new Box2DBoxEdge (102, 749, 0, 691));
+   +
+    /*
+    NEUE RÖHREN ENDE!!!
+     */
+
 
 //Links oben
 
@@ -197,6 +232,35 @@ function Surface () {
     this.myAxes.push(new Box2DBoxEdge ( 1024-146, 768-671, 1024-164, 768-688));
     this.myAxes.push(new Box2DBoxEdge ( 1024-164, 768-688, 1024-181, 768-695));
     this.myAxes.push(new Box2DBoxEdge ( 1024-181, 768-695, 1024-202, 768-692));
+
+    /*
+     !!! neue Röhren!!!
+     !!! WURDE NACH AKTUALISIERUNG DES SPIELFELDS HINZUGEFÜGT!!!
+     !!!       BITTE KEIN X ODER Y ADDIEREN      !!!!
+     */
+    //kleine zusatzwand oben rechts zw bobbel u röhre ins aus
+    this.myAxes.push(new Box2DBoxEdge ( canvas.width - 308, canvas.height-637, canvas.width -227, 665));
+    this.myAxes.push(new Box2DBoxEdge ( canvas.width -227, 665, canvas.width -221, 672));
+
+    //Wand zwischen 2 Röhren (Abschuss & aus
+    this.myAxes.push(new Box2DBoxEdge (canvas.width -392, canvas.height-674, canvas.width -339, canvas.height-701 ));
+    this.myAxes.push(new Box2DBoxEdge (canvas.width -339, canvas.height -701, canvas.width -268, canvas.height-710 ));
+    this.myAxes.push(new Box2DBoxEdge ( canvas.width -268, canvas.height -710, canvas.width -140, canvas.height-694 ));
+    this.myAxes.push(new Box2DBoxEdge ( canvas.width - 140, canvas.height -694, canvas.width -0, canvas.height-621));
+
+    //wand ganz rechts
+    this.myAxes.push(new Box2DBoxEdge (canvas.width -557, canvas.height-590, canvas.width -535, canvas.height-610 ));
+    this.myAxes.push(new Box2DBoxEdge (canvas.width -535, canvas.height-610, canvas.width -514, canvas.height-651));
+    this.myAxes.push(new Box2DBoxEdge ( canvas.width -514, canvas.height-651,canvas.width - 509, canvas.height-673));
+    this.myAxes.push(new Box2DBoxEdge ( canvas.width - 509, canvas.height-673, canvas.width -495, canvas.height-707));
+    this.myAxes.push(new Box2DBoxEdge ( canvas.width -495, canvas.height-707, canvas.width -489, canvas.height-712));
+    this.myAxes.push(new Box2DBoxEdge (canvas.width - 489, canvas.height-712, canvas.width -370, canvas.height-757));
+    this.myAxes.push(new Box2DBoxEdge ( canvas.width -370, canvas.height-757, canvas.width -267, canvas.height-760));
+    this.myAxes.push(new Box2DBoxEdge (canvas.width -267, canvas.height-760, canvas.width -64, canvas.height-736));
+    this.myAxes.push(new Box2DBoxEdge (canvas.width - 64, canvas.height-736, canvas.width -0, canvas.height-690));
+    /*
+     NEUE RÖHREN ENDE!!!
+     */
 
 
     //rechts unten

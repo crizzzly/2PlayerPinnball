@@ -74,9 +74,9 @@ function Special() {
     };
 
     //End of trippy
-    this.tunnels = function (ctx) {
-        var mX = canvas.width / 2;
-        var mY = canvas.height / 2;
+    this.tunnels = function (ctx, x, y) {
+        var mX = x; //canvas.width / 2;
+        var mY = y; //canvas.height / 2;
 
         var pX = [];
         var pY = [];
@@ -107,19 +107,12 @@ function Special() {
         for (var j = 0; j < Math.random()+50; j++) {
            //
                 var iter = Math.floor(Math.random() * 359);
-                console.log("tunnleLineIter: " + iter);
                 var color = getRainbowColor(j);
-                var scale = Math.random();
-                //console.log("start drawing "+pX[j]+", "+pY[j]);
                 ctx.beginPath();
                 ctx.strokeWidth = 3;
                 ctx.strokeStyle = "rgba(" + color[0] + "," + color[1] + "," + color[2] + ", 1)";
                 ctx.moveTo(mX, mY);//mX1[iter], mY1[iter]);
                 ctx.lineTo(pX[iter], pY[iter]);
-                //if (Math.random() < 0.3)ctx.lineTo(pX[iter], pY[iter]);
-                //else if (Math.random() < 0.6) ctx.lineTo(pX1[iter], pY1[iter]);
-                //else ctx.lineTo(pX2[iter], pY2[iter]);
-                //ctx.scale(scale, scale);
                 ctx.stroke();
                 ctx.closePath();
             }
@@ -177,13 +170,13 @@ function Special() {
         ctx.closePath();
         ctx.fill();
 
-        var radius = 100;
+        var radius = 30;
         if (radius < 600) {
             radius += 10;
         }
-        else radius = 5;
-        for (var i = 0; i < 1; i++) {
-            var r = radius;// + i*40;
+        else radius = 30;
+        for (var i = 0; i < 30; i++) {
+            var r = radius*i/2;// + i*40;
             var x = canvas.width / 2 + Math.random() * 8 - 4;
             var y = canvas.height / 2 + Math.random() * 8 - 4;
             ctx.lineWidth = 3;
@@ -263,7 +256,23 @@ this.RandomTree = function () {
 
 
     this.draw = function(ctx) {
-        for (var iter = 0; iter < 3; iter++) {
+        for (var i = 0; i < 4; i++) {
+            nextX.push(Math.random() * 200 - 100 + canvas.width/2);
+            nextY.push(Math.random() * 200 - 100 + canvas.height/2);
+            for (var j = 0; j < nextX.length; j++) {
+                nextX1.push((Math.random() * 200 - 100 + nextX[i]));
+                nextY1.push(Math.random() * 200 - 100 + nextY[i]);
+                /*for (var k = 0; k < 4; k++) {
+                 nextX2.push(Math.random() * 50 + nextX1[j]);
+                 nextY2.push(Math.random() * 50 + nextY1[j]);
+                 /*for (var l = 0; l < nextX2.length; l++) {
+                 nextX3.push(Math.random() * 50 + nextX2[k]);
+                 nextY3.push(Math.random() * 50 + nextY2[k]);
+                 }
+                 }*/
+            }
+        }
+        for (var iter = 0; iter < 4; iter++) {
 
 
             ctx.beginPath();
@@ -274,7 +283,7 @@ this.RandomTree = function () {
             ctx.closePath();
             console.log(+nextX[iter]+","+ nextY[iter]);
 
-            for (var a = 0; a < 3; a++) {
+            for (var a = 0; a < nextX.lengt; a++) {
 
                 ctx.beginPath();
                 ctx.strokeStyle = "#ffffff";

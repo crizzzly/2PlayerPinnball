@@ -10,6 +10,7 @@ function Box2DCircle ( x,  y,  r) {
     var b2Vec2 = Box2D.Common.Math.b2Vec2;
 
     var disappear = false;
+    var resize = false
     var radius = r;
 
     this.miX = 0;
@@ -86,9 +87,13 @@ function Box2DCircle ( x,  y,  r) {
             r+=0.3;
         }
     };
+
+    this.resize = function(){
+        resize = !resize;
+    };
     this.draw = function(ctx) {
         this.update();
-        var alpha = 0.3;
+        var alpha = 0.7;
         if (disappear) {
             if (r > 0.5) {
                 r -= 0.5;
@@ -103,6 +108,11 @@ function Box2DCircle ( x,  y,  r) {
                 //else r = radius;
             }
         }
+        if (resize){
+            if (r >= 0.2) r -= 0.2;
+            else if (r < radius-0.2) r+= 0.2
+        }
+        else r = radius;
 
 
         if ( this.colored) {
