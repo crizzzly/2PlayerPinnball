@@ -10,7 +10,7 @@ function Box2DCircle ( x,  y,  r) {
     var b2Vec2 = Box2D.Common.Math.b2Vec2;
 
     var disappear = false;
-    var resize = false
+    var resize = false;
     var radius = r;
 
     this.miX = 0;
@@ -36,6 +36,7 @@ function Box2DCircle ( x,  y,  r) {
     this.bodyDef.position.y = y/ SCALE;
 
     this.Object = world.CreateBody(this.bodyDef).CreateFixture(this.fixDef);
+    this.Object.GetBody().SetUserData(this);
 
     this.update = function() {
         this.miX = this.Object.GetBody().GetPosition().x * SCALE;
@@ -134,6 +135,10 @@ function Box2DCircle ( x,  y,  r) {
     this.setLocation = function (xA,yA) {
         var posAhora = new b2Vec2(xA / SCALE, yA / SCALE);
         this.Object.GetBody().SetPosition(posAhora);
+    };
+
+    this.setVelocity = function (v) {
+       this.Object.GetBody().SetLinearVelocity(v);
     };
 
     this.contains = function (mousePVec) {

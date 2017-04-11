@@ -90,32 +90,32 @@ function Special() {
         var r = 150;
         var once = 0;
 
-        if(once < 1){
-        for (var i = 0; i < 360; i++) {
-            r = Math.random() * 370 + 200;
-            pX.push(r * Math.cos(i * 2 * Math.PI / 360) + mX);
-            pY.push(r * Math.sin(i * 2 * Math.PI / 360) + mY);
+        if (once < 1) {
+            for (var i = 0; i < 360; i++) {
+                r = Math.random() * 370 + 200;
+                pX.push(r * Math.cos(i * 2 * Math.PI / 360) + mX);
+                pY.push(r * Math.sin(i * 2 * Math.PI / 360) + mY);
 
-            r = Math.random() * 30;
-            mX1.push(r * Math.cos(i * 2 * Math.PI / 360) + mX);
-            mY1.push(r * Math.sin(i * 2 * Math.PI / 360) + mY);
-            once++;
-        }
-        once = true;
+                r = Math.random() * 30;
+                mX1.push(r * Math.cos(i * 2 * Math.PI / 360) + mX);
+                mY1.push(r * Math.sin(i * 2 * Math.PI / 360) + mY);
+                once++;
+            }
+            once = true;
         }
         //if(Math.random()<0.2) {
-        for (var j = 0; j < Math.random()+50; j++) {
-           //
-                var iter = Math.floor(Math.random() * 359);
-                var color = getRainbowColor(j);
-                ctx.beginPath();
-                ctx.strokeWidth = 3;
-                ctx.strokeStyle = "rgba(" + color[0] + "," + color[1] + "," + color[2] + ", 1)";
-                ctx.moveTo(mX, mY);//mX1[iter], mY1[iter]);
-                ctx.lineTo(pX[iter], pY[iter]);
-                ctx.stroke();
-                ctx.closePath();
-            }
+        for (var j = 0; j < Math.random() + 50; j++) {
+            //
+            var iter = Math.floor(Math.random() * 359);
+            var color = getRainbowColor(j);
+            ctx.beginPath();
+            ctx.strokeWidth = 3;
+            ctx.strokeStyle = "rgba(" + color[0] + "," + color[1] + "," + color[2] + ", 1)";
+            ctx.moveTo(mX, mY);//mX1[iter], mY1[iter]);
+            ctx.lineTo(pX[iter], pY[iter]);
+            ctx.stroke();
+            ctx.closePath();
+        }
         //}
     };
 
@@ -162,184 +162,134 @@ function Special() {
     };
 
 
+    this.circles = function (ctx, x, y, radius) {
+        //console.log("called circles");
+        var alpha = 0;
 
-    this.circles = function (ctx) {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-        ctx.beginPath();
-        ctx.rect(0, 0, canvas.width, canvas.height);
-        ctx.closePath();
-        ctx.fill();
-
-        var radius = 30;
-        if (radius < 600) {
-            radius += 10;
-        }
-        else radius = 30;
-        for (var i = 0; i < 30; i++) {
-            var r = radius*i/2;// + i*40;
-            var x = canvas.width / 2 + Math.random() * 8 - 4;
-            var y = canvas.height / 2 + Math.random() * 8 - 4;
-            ctx.lineWidth = 3;
+        for (var i = 0; i < 8; i++) {
+            var rad = radius;
+            if (rad < radius) {
+                rad *= 6;
+                // alpha -=2;
+            }
+            else rad = radius;
+            if(rad-i*4>0) var r = rad-i*4 ;
+            else var r = 1; //raduis*i/2;//*i/2;// + i*40;
+            ctx.save();
+            ctx.lineWidth = 4.5;
             var color = getRainbowColor(i);
-            ctx.strokeStyle = "rgba(" + color[0] + ", " + color[1] + ", " + color[2] + ", 0.7)"; //lila
+            ctx.strokeStyle = "rgba(" + color[0] + ", " + color[1] + ", " + color[2] + ","+alpha+" )"; //lila
             ctx.beginPath();
             ctx.arc(x, y, r, 0, 2 * Math.PI);
             ctx.stroke();
             ctx.closePath();
+            ctx.restore();
+            alpha+= 0.25;
         }
+    };
 
+    this.revCircles = function (ctx, x, y){
+        var radius = 20;
+        var rad = 1;
+        var alpha = 1;
+        for (var i = 0; i < 7; i++) {
+
+                //var rad = radius;
+                if (rad <= radius) {
+                    rad *= 1.2;
+                    // alpha -=2;
+                }
+                else rad = radius;
+                if (rad + i * 4 < radius) var r = rad + i * 4;
+                else var r = radius; //raduis*i/2;//*i/2;// + i*40;
+                ctx.save();
+                ctx.lineWidth = 2;
+                var color = getRainbowColor(i);
+                ctx.strokeStyle = "rgba(" + color[0] + ", " + color[1] + ", " + color[2] + ","+alpha+")"; //lila
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.closePath();
+                ctx.restore();
+
+                alpha *= 0.6
+
+        }
     };
 
 
 
     function getRainbowColor(i) {
         this.frequency = 0.3;
-        this.red = Math.floor(Math.sin(this.frequency * ((i+frameCounter) % 32)) * 127 + 128);
-        this.green = Math.floor(Math.sin(this.frequency * ((i+frameCounter) % 32) + 2) * 127 + 128);
-        this.blue = Math.floor(Math.sin(this.frequency * ((i+frameCounter) % 32) + 4) * 127 + 128);
+        this.red = Math.floor(Math.sin(this.frequency * ((i + frameCounter) % 32)) * 127 + 128);
+        this.green = Math.floor(Math.sin(this.frequency * ((i + frameCounter) % 32) + 2) * 127 + 128);
+        this.blue = Math.floor(Math.sin(this.frequency * ((i + frameCounter) % 32) + 4) * 127 + 128);
 
         return [this.red, this.green, this.blue];
     }
 
     /*
-    function getXPointsOnCircle(x, r, anzahl) {
-        var point = [];
-        for (var i = 0; i < anzahl; i++) {
-            point[i] = (x * Math.cos(i * Math.PI / anzahl)) + r;
-        }
-        return point;
-    }
+     function getXPointsOnCircle(x, r, anzahl) {
+     var point = [];
+     for (var i = 0; i < anzahl; i++) {
+     point[i] = (x * Math.cos(i * Math.PI / anzahl)) + r;
+     }
+     return point;
+     }
 
-    function getYPointsOnCircle(r, y, anzahl) {
-        var point = [];
-        for (var i = 0; i < anzahl; i++) {
-            point[i] = (y * Math.cos(i * Math.PI / anzahl)) + r;
-        }
-        return point;
+     function getYPointsOnCircle(r, y, anzahl) {
+     var point = [];
+     for (var i = 0; i < anzahl; i++) {
+     point[i] = (y * Math.cos(i * Math.PI / anzahl)) + r;
+     }
+     return point;
 
-    }*/
+     }*/
 }
 this.RandomTree = function () {
-    var iterations = 3;
-    var points = [];
-    var nextPoints = [];
 
-    var nextX = [];
-    var nextY = [];
-    var nextX1 = [];
-    var nextY1 = [];
-    var nextX2 = [];
-    var nextY2 = [];
-    var nextX3 = [];
-    var nextY3 = [];
-
-    //this.setKoordinates = function () {
-        for (var i = 0; i < 4; i++) {
-            nextX.push(Math.random() * 200 - 100 + canvas.width/2);
-            nextY.push(Math.random() * 200 - 100 + canvas.height/2);
-            for (var j = 0; j < nextX.length; j++) {
-                nextX1.push((Math.random() * 200 - 100 + nextX[i]));
-                nextY1.push(Math.random() * 200 - 100 + nextY[i]);
-                 /*for (var k = 0; k < 4; k++) {
-                    nextX2.push(Math.random() * 50 + nextX1[j]);
-                    nextY2.push(Math.random() * 50 + nextY1[j]);
-                     /*for (var l = 0; l < nextX2.length; l++) {
-                        nextX3.push(Math.random() * 50 + nextX2[k]);
-                        nextY3.push(Math.random() * 50 + nextY2[k]);
-                    }
-                }*/
-            }
-        }
-   // };
+        var iterations = 4;
+        var points = [];
+        var nextPoints = [];
+        var points2 = [];
 
 
 
+        this.x = canvas.width/2;
+        this.y = canvas.height/2;
 
-    this.draw = function(ctx) {
-        for (var i = 0; i < 4; i++) {
-            nextX.push(Math.random() * 200 - 100 + canvas.width/2);
-            nextY.push(Math.random() * 200 - 100 + canvas.height/2);
-            for (var j = 0; j < nextX.length; j++) {
-                nextX1.push((Math.random() * 200 - 100 + nextX[i]));
-                nextY1.push(Math.random() * 200 - 100 + nextY[i]);
-                /*for (var k = 0; k < 4; k++) {
-                 nextX2.push(Math.random() * 50 + nextX1[j]);
-                 nextY2.push(Math.random() * 50 + nextY1[j]);
-                 /*for (var l = 0; l < nextX2.length; l++) {
-                 nextX3.push(Math.random() * 50 + nextX2[k]);
-                 nextY3.push(Math.random() * 50 + nextY2[k]);
-                 }
-                 }*/
-            }
-        }
-        for (var iter = 0; iter < 4; iter++) {
-
-
+        function drawLine(x, y) {
+            var nextX = x + Math.random() * 40 - 20;
+            var nextY = y + Math.random() * 40 - 20;
             ctx.beginPath();
             ctx.strokeStyle = "#ffffff";
-            ctx.moveTo(canvas.width/2, canvas.height/2);
-            ctx.lineTo(nextX[iter], nextY[iter]);
+            ctx.moveTo(x, y);
+            ctx.lineTo(nextX,nextY);
             ctx.stroke();
             ctx.closePath();
-            console.log(+nextX[iter]+","+ nextY[iter]);
+            return [nextX, nextY];
+        }
+this.draw = function (ctx, x, y) {
 
-            for (var a = 0; a < nextX.lengt; a++) {
 
-                ctx.beginPath();
-                ctx.strokeStyle = "#ffffff";
-                ctx.moveTo(nextX[iter], nextY[iter]);
-                ctx.lineTo(nextX1[a], nextY1[a]);
-                ctx.stroke();
-                ctx.closePath();
+        for (var i = 0; i < iterations; i++) {
+            nextPoints = drawLine(x, y);
 
-                /* for (var b = 0; b <4; a++) {
+            for(var j = 0; j< iterations-2; j++){
+                //console.log("tree x ="+nextPoints[0]+", "+ nextPoints[1]);
+                points = drawLine(nextPoints[0], nextPoints[1]);
+                for (var k = 0; k<2; k++){
+                    //points2 = drawLine(points[0], points[1]);
+                }
 
-                    ctx.beginPath();
-                    ctx.strokeStyle = "#ffffff";
-                    ctx.moveTo(nextX1[a], nextY1[a]);
-                    ctx.lineTo(nextX2[b], nextY2[b]);
-                    ctx.stroke();
-                    ctx.closePath();
-                    for (var c = 0; c < nextX2.length; c++) {
-
-                        ctx.beginPath();
-                        ctx.strokeStyle = "#ffffff";
-                        ctx.moveTo(nextX[b], nextY[b]);
-                        ctx.lineTo(nextX1[c], nextY1[c]);
-                        ctx.stroke();
-                        ctx.closePath();
-                    }
-                }*/
             }
         }
-        //g = 0;
-        //return [nextX, nextY];
+
+
     };
+};
 
-    // for (var i = 0; i < iterations; i++) {
 
-    //drawLine(canvas.width / 4, canvas.height / 2);
-    //drawLine(3*canvas.width / 4, canvas.height / 2);
-    /*
-     for (var i = 0; i < 4; i++) {
-     points = drawLine(nextX[i], nextY[i]);
-     for (var j = 0; j < 4; j++) {
-     points = drawLine(nextX[i], nextY[i]);//nextPoints = drawLine(points[0], points[1]);
-     for (var g = 0; g < 3; g++) {
-     // points = drawLine(nextX[i], nextY[i]);//ar nextNextPoints = drawLine(nextPoints[0], nextPoints[1]);
-     }
-     }
-     }*/
-
-    /*    for(var j = 0; j< iterations; j++){
-     //console.log("tree x ="+nextPoints[0]+", "+ nextPoints[1]);
-     points = drawLine(nextPoints[0], nextPoints[1]);
-     for(var g = 0; g< iterations; g++){
-     //console.log("tree x ="+points[0]+", "+ nextPoints[1]);
-     points = drawLine(points[0], points[1]);
-
-     }
-     }*/
-} //ende random tree
+//} //ende random tree
 
 

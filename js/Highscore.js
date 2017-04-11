@@ -28,7 +28,7 @@ function Player (player) {
 
     };
 
-    /*this.draw = function(ctx) {
+    this.draw = function(ctx) {
         for (var i = 0; i < this.myAxes.length; ++i) {
             this.myAxes[i].draw(ctx);
         }
@@ -69,11 +69,15 @@ function Highscore () {
         //Highscore rect
         var alpha = 0.8;
         ctx.save();
-        ctx.fillStyle = "rgba(50, 50, 50, " + alpha + ")";
+        ctx.fillStyle = "rgba(50, 50, 250, " + alpha + ")";
         ctx.strokeStyle = "rgba(0, 0, 0, " + alpha + ")";
         ctx.beginPath();
-        ctx.translate(canvas.width / 2 - 250, canvas.height / 2 - 250);
-        ctx.rect(0, 0, 500, 500);
+        //ctx.translate(canvas.width / 2 - 250, canvas.height / 2 - 250);
+        
+        ctx.arc(canvas.width/2,canvas.height/2,250,0,2*Math.PI);
+        ctx.arc(canvas.width/2-300,canvas.height/2,200,0,2*Math.PI);
+        ctx.arc(canvas.width/2+300,canvas.height/2,200,0,2*Math.PI);
+        //ctx.rect(0, 0, 500, 500);
         ctx.stroke();
         ctx.fill();
         ctx.closePath();
@@ -81,32 +85,36 @@ function Highscore () {
         ctx.fillStyle = "#bbbbbb";
         ctx.font = "normal 11px Roboto-Medium";
 
-        /* for (var i = 0; i < score.length; i++) {
+       /* for (var i = 0; i < score.length; i++) {
          var yPos = i * 20;
          ctx.fillText((i + 1) + ": " + score[i][0] + "  :  " + score[i][1], 50, (200 + yPos));
          }*/
 
         //players in score
-        ctx.fillText("1.: " + this.p1[0] + "  :  " + this.p1[1] + " Punkte", 100, 100);
-        ctx.fillText("2.: " + this.p2[0] + "  :  " + this.p2[1] + " Punkte", 100, 120);
+        ctx.fillText("1.: " + this.p1[0] + "  :  " + this.p1[1] + " Punkte", canvas.width/2-50, canvas.height/2);
+        ctx.fillText("2.: " + this.p2[0] + "  :  " + this.p2[1] + " Punkte", canvas.width/2-50, canvas.height/2+20);
 
-        // ctx.restore();
+        ctx.fillText("New Game?", canvas.width/2-25, canvas.height/2+100);
+
+        ctx.restore();
         //Button for loading new game
-        //ctx.save();
+        ctx.save();
         ctx.beginPath();
-        ctx.translate(200, 400);
-        ctx.rect(0, 0, 100, 50);
-        ctx.fillStyle = "rgba(30, 30, 30, " + alpha + ")";
+       // ctx.translate(500, 400);
+        ctx.rect(canvas.width/2-25, 550, 50, 50);
+        ctx.fillStyle = "rgba(300, 300, 30, " + alpha + ")";
         ctx.strokeStyle = "rgba(0, 0, 0, " + alpha + ")";
         ctx.stroke();
         ctx.fill();
-        ctx.fillStyle = "rgba(187, 187, 187, 1)";
-        ctx.fillText("New Game?", 210, 410);
+       // ctx.fillStyle = "rgba(287, 187, 1, 1)";
+        //ctx.fillText("New Game?", canvas.width/2, canvas.height/2);
         ctx.closePath();
         ctx.restore();
-    };
-//ctx.translate(200, 400);
-    //ctx.translate(canvas.width/2-250, canvas.height/2-250);
+
+        // ctx.translate(200, 400);
+       // ctx.translate(canvas.width/2-250, canvas.height/2-250);
+         }; 
+
     this.reload = function (mouseX, mouseY) {
         if (mouseX > canvas.width / 2 - 50 && mouseX < canvas.width / 2 + 50 && mouseY > canvas.height / 2 + 150 && mouseY < canvas.height / 2 + 200) {
             player1.delete();
@@ -170,5 +178,4 @@ function Highscore () {
         };
 
     }
-
 

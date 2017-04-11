@@ -4,8 +4,8 @@
 
 
 function Mill ( myX, myY, la, ua, dir) {
-    var paddleWidth = 55;
-    var paddleHeight= 5;
+    var paddleWidth = 50;
+    var paddleHeight= 6;
     this.myAngle= 0;
 
 
@@ -19,10 +19,11 @@ function Mill ( myX, myY, la, ua, dir) {
         this.joint = new revoluteJointDef();
 
         this.joint.Initialize(this.anchor_body, this.paddle_body, this.paddle_body.GetWorldCenter(),this.anchor_body.GetWorldCenter);
-        this.joint.maxMotorTorque = 9000;//trq; //standardWert: 100 //10000;//
+        this.joint.maxMotorTorque = 10000;//trq; //standardWert: 100 //10000;//
         this.joint.motorSpeed = msd * dir;
         this.joint.enableMotor = on;
         this.joint.referenceAngle = 0;// refAng;//Math.PI/4;//Math.PI/2;
+        this.paddle.Object.GetBody().SetUserData(this);
 
         // offset
         this.joint.localAnchorB.Set(-paddleWidth/2/SCALE,0) ;
@@ -47,7 +48,7 @@ function Mill ( myX, myY, la, ua, dir) {
     };
 
     this.shoot = function(ns) {
-        var speed = ns*10;
+        var speed = ns*15;
         this.motor.SetMotorSpeed(speed);//*msd);
         //console.log("angle in shoot: "+this.myAngle);
         //console.log("motorSpeed in shoot: "+(speed));

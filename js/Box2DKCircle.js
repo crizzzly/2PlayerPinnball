@@ -9,8 +9,17 @@ function Box2DKCircle ( x,  y,  r, fixed) {
     var b2Body = Box2D.Dynamics.b2Body;
     var b2Vec2 = Box2D.Common.Math.b2Vec2;
 
-    this.miX = 0;
-    this.miY = 0;
+    if(fixed){
+        this.miX = x;
+        this.miY = y;
+        this.radius = r;
+
+    }
+    else {
+        this.miX = 0;
+        this.miY = 0;
+    }
+    this.raduis = r;
 
     this.fixDef = new b2FixtureDef;
     this.fixDef.density = 1.5;
