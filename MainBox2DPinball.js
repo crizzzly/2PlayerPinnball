@@ -147,21 +147,21 @@ function onReady() {
     //myWalls.push(new Box2DBondary(canvas.width-2, 61, 2, 73, 0));
 
     //left side
-    myBuoys.push(new Box2DKCircle(218, 629, 17, true));
-    myBuoys.push(new Box2DKCircle(302, 582, 20, true));
-    myBuoys.push(new Box2DKCircle(242, 515, 17, true));
+    myBuoys.push(new Box2DKCircle(220, 629, 17, true));
+    myBuoys.push(new Box2DKCircle(302, 581, 21, true));
+    myBuoys.push(new Box2DKCircle(244, 514, 16, true));
     //right side
-    myBuoys.push(new Box2DKCircle(808, 140, 17, true));
-    myBuoys.push(new Box2DKCircle(720, 182, 20, true));
-    myBuoys.push(new Box2DKCircle(778, 254, 17, true));
+    myBuoys.push(new Box2DKCircle(806, 140, 17, true));
+    myBuoys.push(new Box2DKCircle(720, 182, 21, true));
+    myBuoys.push(new Box2DKCircle(776, 253, 16, true));
     //middle left
-    myBuoys.push(new Box2DKCircle(312, 228, 17, true));
-    myBuoys.push(new Box2DKCircle(380, 270, 30, true));
-    myBuoys.push(new Box2DKCircle(298, 304, 25, true));
+    myBuoys.push(new Box2DKCircle(311, 228, 17, true));
+    myBuoys.push(new Box2DKCircle(380, 270, 28, true));
+    myBuoys.push(new Box2DKCircle(298, 300, 20, true));
     //middle right
-    myBuoys.push(new Box2DKCircle(canvas.width-323, canvas.height-230, 17, true));
-    myBuoys.push(new Box2DKCircle(canvas.width-390, canvas.height-273, 30, true));
-    myBuoys.push(new Box2DKCircle(canvas.width-308, canvas.height-304, 25, true));
+    myBuoys.push(new Box2DKCircle(canvas.width-325, canvas.height-232, 17, true));
+    myBuoys.push(new Box2DKCircle(canvas.width-394, canvas.height-273, 28, true));
+    myBuoys.push(new Box2DKCircle(canvas.width-314, canvas.height-306, 20, true));
 
 
     //from where the ball will be pulled in the game
@@ -169,7 +169,7 @@ function onReady() {
     p2StartPos = [923, 45];
     // creating windmill & ball
     myMotor1 = new WindMill(canvas.width/2, canvas.height/2);
-    myBall = new Box2DCircle(p1StartPos[0], p1StartPos[1], 10);
+    myBall = new Box2DCircle(p1StartPos[0], p1StartPos[1], 11);
 
 
     /*
@@ -236,7 +236,7 @@ function onReady() {
         //checkCollision(collisionA, collisionB);
         // between ball and paddles
         if(bodyA instanceof Box2DCircle && bodyB instanceof Mill || bodyA instanceof Mill && bodyB instanceof Box2DCircle) {
-            console.log("collision circle & Mill");
+            //console.log("collision circle & Mill");
             collision1.play();
             collisions ++;
         }
@@ -250,13 +250,13 @@ function onReady() {
             savePoints += points;
 
             circleCount = 0;
-            console.log("collision circle & Kcircle");
+            //console.log("collision circle & Kcircle");
             collision2.play();
             kCollisions ++;
         }
         // between ball and walls
         if((bodyA instanceof Box2DCircle && bodyB  instanceof Surface)|| (bodyA instanceof Surface && bodyB instanceof Box2DCircle)) {
-            console.log("collision circle & surface");
+            //console.log("collision circle & surface");
             collision2.play();
             kCollisions ++;
         }
@@ -341,11 +341,11 @@ function draw () {
     //startScreem
     //start.draw(ctx);
 
-    //walls made in Surface
+    /*walls made in Surface
     mySurface.draw(ctx);
     for (var i = 0; i < myWalls.length; i++){
         myWalls[i].draw(ctx);
-    }
+    }*/
     /*
     for (var j = 0; j < myBuoys.length; j++){
         myBuoys[j].draw(ctx);
@@ -548,37 +548,72 @@ function keyInput(e) {
             //explosion();
             //explosion();
             break;
-        case 38: // rechts key
-            if (paddleIsActive) {
+
+        case 79: //"O"
+            pRightPaddles[0].shoot(1.0); //rechter Spieler oberes Paddle
+            break;
+
+        case 76: //"L"
                 pRightPaddles[1].shoot(-1.0); //rechter Spieler unteres Paddle
+            break;
+
+        case 83: //"S"
+            pLeftPaddles[1].shoot(1.0); //rechter Spieler unteres Paddle
+            break;
+
+        case 87: //"W"
+            pLeftPaddles[0].shoot(-1.0); //rechter Spieler unteres Paddle
+            break;
+
+
+        case 38: // rechts key
+            if(myBall.miX > 957 && myBall.miY < 101){
+                ballPower += 1;
+                shootBall();
             }
-            else  xPosition += 20;
+            else {
+                if (paddleIsActive) {
+                    pRightPaddles[1].shoot(-1.0); //rechter Spieler unteres Paddle
+                }
+            }
             break;
         case 40: //links-key
-            if (paddleIsActive) {
-                pRightPaddles[0].shoot(1.0); //rechter Spieler oberes Paddle
+            if(myBall.miX > 957 && myBall.miY < 101){
+                ballPower += 1;
+                shootBall();
             }
-            else xPosition -= 20;
+            else {
+                if (paddleIsActive) {
+                    pRightPaddles[0].shoot(1.0); //rechter Spieler oberes Paddle
+                }
+            }
+
             break;
 
         //case 80: //p-Taste für paddle links oben
             //break;
 
         case 37: //oben -key handle left paddle
-            if (paddleIsActive) {
-                pLeftPaddles[1].shoot(1.0);//paddleMove(pLeftPaddles[0]);
+            if(myBall.miX < 78 && myBall.miY > 660){
+                ballPower += 1;
+                shootBall();
             }
             else {
-                yPosition += 20; //linker spieler
+                if (paddleIsActive) {
+                    pLeftPaddles[1].shoot(1.0);//paddleMove(pLeftPaddles[0]);
+                }
             }
             break;
 
         case 39: // unten  key
-            if (paddleIsActive) {
-                pLeftPaddles[0].shoot(-1.0); //linker Spieler oberes Paddle
+            if(myBall.miX < 78 && myBall.miY > 660){
+                ballPower += 1;
+                shootBall();
             }
             else {
-                yPosition -= 20; //linker spieler
+                if (paddleIsActive) {
+                    pLeftPaddles[0].shoot(-1.0); //linker Spieler oberes Paddle
+                }
             }
             break;
 
@@ -623,30 +658,14 @@ function ballActions() {
         myBall.setLocation(p2StartPos[0], p2StartPos[1]);
     }
 
-    //stop ball if at startPos
-
-       /* var disance = getDistance(myBuoys[bu].miX, myBuoys[bu].miY, myBall.miX, myBall.miY);
-        if (disance <= 60){
-            //console.log("distance"+disance);
-
-        }
-        if (disance <= 30){
-            savePoints += points;
-            collision1.play();
-            circleKoords = [myBuoys[bu].miX, myBuoys[bu].miY, 20];
-            circleCount = 0;
-            console.log("hit KCircle");
-        }
-    }*/
-
     //check if ball is in the left "ball" (playerView) and call konfetti function 199/122
     var di1 = getDistance(221, 135, myBall.miX, myBall.miY);
     var di2 = getDistance(canvas.width-221, canvas.height-135, myBall.miX, myBall.miY);
     if (di1 < 20){
-        explosion(221, 135, true);
+        explosion(221, 135);
     }
     if (di2 < 20){
-        explosion(canvas.width-221, canvas.height-135, true);
+        explosion(canvas.width-221, canvas.height-135);
     }
     // Black Hole
     var dista1 = getDistance(blackHole1X, blackHole1Y, myBall.miX, myBall.miY);

@@ -94,14 +94,14 @@ function Highscore () {
         ctx.fillText("1.: " + this.p1[0] + "  :  " + this.p1[1] + " Punkte", canvas.width/2-50, canvas.height/2);
         ctx.fillText("2.: " + this.p2[0] + "  :  " + this.p2[1] + " Punkte", canvas.width/2-50, canvas.height/2+20);
 
-        ctx.fillText("New Game?", canvas.width/2-25, canvas.height/2+100);
+        //ctx.fillText("New Game?", canvas.width/2-25, canvas.height/2+100);
 
         ctx.restore();
         //Button for loading new game
         ctx.save();
         ctx.beginPath();
        // ctx.translate(500, 400);
-        ctx.rect(canvas.width/2-25, 550, 50, 50);
+        ctx.rect(canvas.width/2-50, 550, 100, 50);
         ctx.fillStyle = "rgba(300, 300, 30, " + alpha + ")";
         ctx.strokeStyle = "rgba(0, 0, 0, " + alpha + ")";
         ctx.stroke();
@@ -110,7 +110,8 @@ function Highscore () {
         //ctx.fillText("New Game?", canvas.width/2, canvas.height/2);
         ctx.closePath();
         ctx.restore();
-
+        ctx.fillStyle = "#2e2e2e";
+        ctx.fillText("New Game?", canvas.width/2-30, 580);
         // ctx.translate(200, 400);
        // ctx.translate(canvas.width/2-250, canvas.height/2-250);
          }; 

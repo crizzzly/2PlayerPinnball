@@ -57,7 +57,7 @@ function Box2DCircle ( x,  y,  r) {
 
         target.Normalize();
 
-        var force = 0.1;
+        var force = 0.3;
         target.x *= force;
         target.y *= force;
 

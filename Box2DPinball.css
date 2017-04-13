@@ -1,6 +1,13 @@
 canvas{
     border:1px solid rgba(84, 84, 102, 0.8)
 }
+body{
+    height: 100%;
+    margin-top: 0px;
+    margin-left: 12.5%;
+    background-color: #000000;
+    overflow: hidden;
+}
 
 h1 {
     font-weight: normal;
