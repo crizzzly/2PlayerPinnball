@@ -1,6 +1,6 @@
 # 2PlayerPinball
 Student's project at HfG Schwaebisch Gmuend - IoT2: Multiplayer browsergame
-(by Christina Rost, Jana Seemann, Marina Rost, Lea  & Xian Wu) 
+(by Christina Rost, Jana Seemann, Marina Rost, Lea Kramer & Xian Wu) 
 
 We had to write a multiplayer arcade game in javascript. 
 
