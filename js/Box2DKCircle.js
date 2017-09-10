@@ -121,7 +121,3 @@ function Box2DKCircle ( x,  y,  r, fixed) {
         return false;
     };
 }  // end Box2DCircle
-
-
-
-

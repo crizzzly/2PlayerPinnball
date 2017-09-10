@@ -16,7 +16,7 @@ function Box2DBondary ( x,  y,  w, h, a) {
     this.fixDef = new b2FixtureDef;
     this.fixDef.density = 1.0;
     this.fixDef.friction = 0.5;
-    this.fixDef.restitution = 0.5;
+    this.fixDef.restitution = 0.3;
 
     this.bodyDef = new b2BodyDef;
     this.bodyDef.type = b2Body.b2_staticBody;

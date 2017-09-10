@@ -1,4 +1,4 @@
-/**
+ /**
  * Created by franklinhc on 9/12/15.
  */
 document.onkeydown=function(){keyInput()};
@@ -208,7 +208,7 @@ function onReady() {
 
     //background music
     audioBackground  = document.createElement('AUDIO');
-    audioBackground.src = "audio/hintergrund/Keytronic_-_The_Astronaut_(high_and_free).mp3";
+    audioBackground.src = "audio/hintergrund/through space.ogg";
 
     // sounds
     collision1 = document.createElement('AUDIO');
@@ -237,7 +237,7 @@ function onReady() {
         // between ball and paddles
         if(bodyA instanceof Box2DCircle && bodyB instanceof Mill || bodyA instanceof Mill && bodyB instanceof Box2DCircle) {
             //console.log("collision circle & Mill");
-            collision1.play();
+           audioAbschuss.play();
             collisions ++;
         }
         // between ball and zylinders
@@ -288,7 +288,7 @@ function draw () {
 
     if (specialActive) {
        specialCount++;
-        if(specialCount < 200) {
+        if(specialCount < 300) {
             //specials.drawTrippy(ctx);
             //specials.randomTree(ctx);
 
@@ -750,10 +750,12 @@ function explosion (x,  y, isKonfetti ) {
 function shootBall () {
 
     var impulsDirection = 0;
-    if (myBall.miY < canvas.height/4)  impulsDirection = 200; //1/4 * Math.PI;
-    if (myBall.miY > 672)  impulsDirection = 20; //linker Spieler
-
-    myBall.applyImpulse(impulsDirection, 50);
+    var speed = 50;
+    if (myBall.miX> 949 &&myBall.miY < 98)  impulsDirection = 200; //1/4 * Math.PI;
+    else if (myBall.miX < 72 &&myBall.miY > 669)  impulsDirection = 20; //linker Spieler
+    else speed = 0;
+    
+    myBall.applyImpulse(impulsDirection, speed);
 }
 
 function reload () {

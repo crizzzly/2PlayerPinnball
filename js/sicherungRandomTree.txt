@@ -1,0 +1,125 @@
+this.RandomTree = function(){
+    var iterations = 3;
+    var points = [];
+    var nextPoints = [];
+
+    var nextX = [];
+    var nextY = [];
+    var nextX1 = [];
+    var nextY1 = [];
+    var nextX2 = [];
+    var nextY2 = [];
+    var nextX3 = [];
+    var nextY3 = [];
+
+    //this.setKoordinates = function () {
+        for (var i = 0; i < 4; i++) {
+            nextX.push(Math.random() * 20 - 10 + canvas.width/2);
+            nextY.push(Math.random() * 20 - 10 + canvas.height/2);
+            for (var j = 0; j < nextX.length; j++) {
+                nextX1.push((Math.random() * 200 - 100 + nextX[i]));
+                nextY1.push(Math.random() * 200 - 100 + nextY[i]);
+                 /*for (var k = 0; k < 4; k++) {
+                    nextX2.push(Math.random() * 50 + nextX1[j]);
+                    nextY2.push(Math.random() * 50 + nextY1[j]);
+                     /*for (var l = 0; l < nextX2.length; l++) {
+                        nextX3.push(Math.random() * 50 + nextX2[k]);
+                        nextY3.push(Math.random() * 50 + nextY2[k]);
+                    }
+                }*/
+            }
+        }
+   // };
+
+
+
+
+    this.draw = function(ctx) {
+        /*for (var i = 0; i < 4; i++) {
+            nextX.push(Math.random() * 40 - 20 + canvas.width/4);
+            nextY.push(Math.random() * 40 - 20 + canvas.height/2);
+            for (var j = 0; j < nextX.length; j++) {
+                nextX1.push((Math.random() * 20 - 10 + nextX[i]));
+                nextY1.push(Math.random() * 20 - 10 + nextY[i]);
+                /*for (var k = 0; k < 4; k++) {
+                 nextX2.push(Math.random() * 50 + nextX1[j]);
+                 nextY2.push(Math.random() * 50 + nextY1[j]);
+                 /*for (var l = 0; l < nextX2.length; l++) {
+                 nextX3.push(Math.random() * 50 + nextX2[k]);
+                 nextY3.push(Math.random() * 50 + nextY2[k]);
+                 }
+                 }
+            }
+        }*/
+        for (var iter = 0; iter < 3; iter++) {
+            nextX.push(Math.random() * 40 - 20 + canvas.width/4);
+            nextY.push(Math.random() * 40 - 20 + canvas.height/2);
+
+            ctx.beginPath();
+            ctx.strokeStyle = "#ffffff";
+            ctx.moveTo(canvas.width/4, canvas.height/2);
+            ctx.lineTo(nextX[iter], nextY[iter]);
+            ctx.stroke();
+            ctx.closePath();
+            //console.log(+nextX[iter]+","+ nextY[iter]);
+
+            for (var a = 0; a < nextX.lengt; a++) {
+                nextX1.push((Math.random() * 40 - 20 + nextX[i]));
+                nextY1.push(Math.random() * 40 - 20 + nextY[i]);
+
+                ctx.beginPath();
+                ctx.strokeStyle = "#ffffff";
+                ctx.moveTo(nextX[iter], nextY[iter]);
+                ctx.lineTo(nextX1[a], nextY1[a]);
+                ctx.stroke();
+                ctx.closePath();
+
+                /* for (var b = 0; b <4; a++) {
+
+                    ctx.beginPath();
+                    ctx.strokeStyle = "#ffffff";
+                    ctx.moveTo(nextX1[a], nextY1[a]);
+                    ctx.lineTo(nextX2[b], nextY2[b]);
+                    ctx.stroke();
+                    ctx.closePath();
+                    for (var c = 0; c < nextX2.length; c++) {
+
+                        ctx.beginPath();
+                        ctx.strokeStyle = "#ffffff";
+                        ctx.moveTo(nextX[b], nextY[b]);
+                        ctx.lineTo(nextX1[c], nextY1[c]);
+                        ctx.stroke();
+                        ctx.closePath();
+                    }
+                }*/
+            }
+        }
+        //g = 0;
+        //return [nextX, nextY];
+    };
+
+    // for (var i = 0; i < iterations; i++) {
+
+    //drawLine(canvas.width / 4, canvas.height / 2);
+    //drawLine(3*canvas.width / 4, canvas.height / 2);
+    /*
+     for (var i = 0; i < 4; i++) {
+     points = drawLine(nextX[i], nextY[i]);
+     for (var j = 0; j < 4; j++) {
+     points = drawLine(nextX[i], nextY[i]);//nextPoints = drawLine(points[0], points[1]);
+     for (var g = 0; g < 3; g++) {
+     // points = drawLine(nextX[i], nextY[i]);//ar nextNextPoints = drawLine(nextPoints[0], nextPoints[1]);
+     }
+     }
+     }*/
+
+    /*    for(var j = 0; j< iterations; j++){
+     //console.log("tree x ="+nextPoints[0]+", "+ nextPoints[1]);
+     points = drawLine(nextPoints[0], nextPoints[1]);
+     for(var g = 0; g< iterations; g++){
+     //console.log("tree x ="+points[0]+", "+ nextPoints[1]);
+     points = drawLine(points[0], points[1]);
+
+     }
+     }*/	
+};

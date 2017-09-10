@@ -73,7 +73,7 @@ function Highscore () {
         ctx.strokeStyle = "rgba(0, 0, 0, " + alpha + ")";
         ctx.beginPath();
         //ctx.translate(canvas.width / 2 - 250, canvas.height / 2 - 250);
-        
+
         ctx.arc(canvas.width/2,canvas.height/2,250,0,2*Math.PI);
         ctx.arc(canvas.width/2-300,canvas.height/2,200,0,2*Math.PI);
         ctx.arc(canvas.width/2+300,canvas.height/2,200,0,2*Math.PI);
@@ -102,7 +102,7 @@ function Highscore () {
         ctx.beginPath();
        // ctx.translate(500, 400);
         ctx.rect(canvas.width/2-50, 550, 100, 50);
-        ctx.fillStyle = "rgba(300, 300, 30, " + alpha + ")";
+        ctx.fillStyle = "rgba(20, 30, 240, " + 0.6 + ")";
         ctx.strokeStyle = "rgba(0, 0, 0, " + alpha + ")";
         ctx.stroke();
         ctx.fill();
@@ -114,7 +114,7 @@ function Highscore () {
         ctx.fillText("New Game?", canvas.width/2-30, 580);
         // ctx.translate(200, 400);
        // ctx.translate(canvas.width/2-250, canvas.height/2-250);
-         }; 
+         };
 
     this.reload = function (mouseX, mouseY) {
         if (mouseX > canvas.width / 2 - 50 && mouseX < canvas.width / 2 + 50 && mouseY > canvas.height / 2 + 150 && mouseY < canvas.height / 2 + 200) {
@@ -179,4 +179,3 @@ function Highscore () {
         };
 
     }
-

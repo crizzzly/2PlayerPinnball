@@ -9,6 +9,24 @@ function Special() {
     var radius = 50 * s;
     var n = 4;
 
+    this.crackScreen = function(ctx){
+      var midX = canvas.width/2;
+      var midY = canvas.height/2;
+
+
+      drawLine = function(startX, startY, endX, endY){
+        ctx.beginPath();
+        ctx.strokeStyle = "#ffffff";
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+        ctx.closePath();
+      } //end drawLine
+
+      
+    }
+    //end of crackScreen
+
     this.drawTrippy = function (ctx) {
         radius = 10 * s;
         if (n < 5) {
@@ -291,5 +309,3 @@ this.draw = function (ctx, x, y) {
 
 
 //} //ende random tree
-
-

@@ -48,7 +48,7 @@ function Mill ( myX, myY, la, ua, dir) {
     };
 
     this.shoot = function(ns) {
-        var speed = ns*15;
+        var speed = ns*10;
         this.motor.SetMotorSpeed(speed);//*msd);
         //console.log("angle in shoot: "+this.myAngle);
         //console.log("motorSpeed in shoot: "+(speed));
