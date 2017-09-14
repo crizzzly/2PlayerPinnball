@@ -9,7 +9,7 @@ function Surface () {
     var sx = 11;
     var sy = -16;
     //rechte wand mit mehreren Kreisen oben dran, incl 2 kurven
-    this.myAxes.push(new Box2DBoxEdge ( 17+sx, 512+sy, 38+sx, 542+sy));
+    this.myAxes.push(new Box2DBoxEdge ( 20+sx, 512+sy, 38+sx, 542+sy));
     this.myAxes.push(new Box2DBoxEdge ( 38+sx, 542+sy, 40+sx, 561+sy));
     this.myAxes.push(new Box2DBoxEdge ( 40+sx, 561+sy, 48+sx, 584+sy));
     this.myAxes.push(new Box2DBoxEdge ( 48+sx, 584+sy, 62+sx, 607+sy));
@@ -217,7 +217,7 @@ function Surface () {
 
 
 //rechts oben
-    this.myAxes.push(new Box2DBoxEdge ( 1024-17-12, 768-512+14, 1024-38-12, 768-542+14));
+    this.myAxes.push(new Box2DBoxEdge ( 1024-20-12, 768-512+14, 1024-38-12, 768-542+14));
     this.myAxes.push(new Box2DBoxEdge ( 1024-38-12, 768-542+14, 1024-40-12, 768-561+14));
     this.myAxes.push(new Box2DBoxEdge ( 1024-40-12, 768-561+14, 1024-48-12, 768-584+14));
     this.myAxes.push(new Box2DBoxEdge ( 1024-48-12, 768-584+14, 1024-62-12, 768-607+14));
@@ -391,7 +391,7 @@ function Surface () {
     /*
      neue röhren ende!!
      */
-    
+
 
 
     this.draw = function(ctx) {

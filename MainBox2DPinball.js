@@ -1,7 +1,15 @@
  /**
  * Created by franklinhc on 9/12/15.
  */
-document.onkeydown=function(){keyInput()};
+ var keydown = true;
+document.onkeydown=function(){
+    keydown = true;
+    keyInput()
+};
+document.onkeyup = function(){
+    keydown = false;
+    keyInput()
+}
 window.onload = onReady; // first function call
 
 // mouse position any time
@@ -48,7 +56,7 @@ var pLeftPaddles = [];
 var pRightPaddles = [];
 var paddleIsActive = true;
 var drawPaddles = true;
-var drawBalls = true;
+var drawBalls = false;
 //sounds
 var collisions = 0;
 var kCollisions= 0;
@@ -131,10 +139,10 @@ function onReady() {
     //die schwarzen Löcher, die den Ball verschwinden lassen
     imgBlackHole = new Image();
     imgBlackHole.src ="img/blackHole.png";
-    blackHole1X = 430;
-    blackHole1Y = 90;
-    blackHole2X = canvas.width - 430;
-    blackHole2Y = canvas.height - 90;
+    blackHole1X = 400;
+    blackHole1Y = 75;
+    blackHole2X = canvas.width - 450;
+    blackHole2Y = canvas.height - 120;
 
 
 
@@ -318,8 +326,8 @@ function draw () {
         circleCount++;
     }
     if (Math.random()<0.1   ) {
-        randomTree.draw(ctx, blackHole1X, blackHole1Y);
-        randomTree.draw(ctx, blackHole2X, blackHole2Y);
+        randomTree.draw(ctx, blackHole1X + 25, blackHole1Y + 25);
+        randomTree.draw(ctx, blackHole2X +25, blackHole2Y+25);
     }
     if (Math.random() < 0.01){
         revCircleCount1 = 0;
@@ -380,16 +388,16 @@ function draw () {
             pLeftPaddles[i].draw(ctx);
             //console.log("paddle"+i+".angle: "+pLeftPaddles[0].myAngle);
         }
-
+/*
         //console.log("paddle"+1+".angle: "+pLeftPaddles[1].myAngle);
          if (pLeftPaddles[0].myAngle <= 0.9 && pLeftPaddles[0].shot === true) {
              audioAbschuss.play();
-                pLeftPaddles[0].shoot(1.0);
+                //pLeftPaddles[0].shoot(1.0);
             }
 
         if (pLeftPaddles[1].myAngle <= 0.9 && pLeftPaddles[1].shot === true){
             audioAbschuss.play();
-            pLeftPaddles[1].shoot(-1.0);
+            //pLeftPaddles[1].shoot(-1.0);
         }
         //console.log("paddle0.angle: "+pLeftPaddles[0].myAngle);
         //console.log("paddle1.angle: "+pLeftPaddles[1].myAngle);
@@ -402,9 +410,10 @@ function draw () {
 
         if (pRightPaddles[1].myAngle >= 2.2 && pRightPaddles[1].shot === true){
             audioAbschuss.play();
-            pRightPaddles[1].shoot(1.0);
+            //pRightPaddles[1].shoot(1.0);
             //console.log("RightPaddle1.angle: "+pRightPaddles[1].myAngle);
         }
+        */
 
 
 
@@ -535,12 +544,18 @@ function pick(event) {
 //Steuerung der Spieler:
 function keyInput(e) {
     e = e || window.event;
+    if(gameOver || startScreen) reload();
 
-    switch (e.keyCode){
+
+    switch (e.keyCode) {
 
         case 32: //Space for ball
-            ballPower += 1;
-            shootBall();
+            if(keydown) {
+                ballPower += 10;
+            }
+            else {
+                shootBall(ballPower);
+            }
             break;
 
         case 75: //k-Taste für Konfetti
@@ -550,24 +565,36 @@ function keyInput(e) {
             break;
 
         case 79: //"O"
-            pRightPaddles[0].shoot(1.0); //rechter Spieler oberes Paddle
+            audioAbschuss.play();
+            var dir = 1.0;
+            if(!keydown) dir *= -1;
+            pRightPaddles[0].shoot(dir); //rechter Spieler oberes Paddle
             break;
 
         case 76: //"L"
-                pRightPaddles[1].shoot(-1.0); //rechter Spieler unteres Paddle
+            audioAbschuss.play();
+            var dir = 1.0;
+            if(keydown) dir *= -1;
+            pRightPaddles[1].shoot(dir); //rechter Spieler unteres Paddle
             break;
 
         case 83: //"S"
-            pLeftPaddles[1].shoot(1.0); //rechter Spieler unteres Paddle
+            audioAbschuss.play();
+            var dir = 1.0;
+            if(!keydown) dir *= -1;
+            pLeftPaddles[1].shoot(dir); //rechter Spieler unteres Paddle
             break;
 
         case 87: //"W"
-            pLeftPaddles[0].shoot(-1.0); //rechter Spieler unteres Paddle
+            audioAbschuss.play();
+            var dir = 1.0;
+            if(keydown) dir *= -1;
+            pLeftPaddles[0].shoot(dir); //rechter Spieler unteres Paddle
             break;
 
 
         case 38: // rechts key
-            if(myBall.miX > 957 && myBall.miY < 101){
+            if (myBall.miX > 957 && myBall.miY < 101) {
                 ballPower += 1;
                 shootBall();
             }
@@ -578,7 +605,7 @@ function keyInput(e) {
             }
             break;
         case 40: //links-key
-            if(myBall.miX > 957 && myBall.miY < 101){
+            if (myBall.miX > 957 && myBall.miY < 101) {
                 ballPower += 1;
                 shootBall();
             }
@@ -591,10 +618,10 @@ function keyInput(e) {
             break;
 
         //case 80: //p-Taste für paddle links oben
-            //break;
+        //break;
 
         case 37: //oben -key handle left paddle
-            if(myBall.miX < 78 && myBall.miY > 660){
+            if (myBall.miX < 78 && myBall.miY > 660) {
                 ballPower += 1;
                 shootBall();
             }
@@ -606,7 +633,7 @@ function keyInput(e) {
             break;
 
         case 39: // unten  key
-            if(myBall.miX < 78 && myBall.miY > 660){
+            if (myBall.miX < 78 && myBall.miY > 660) {
                 ballPower += 1;
                 shootBall();
             }
@@ -616,7 +643,6 @@ function keyInput(e) {
                 }
             }
             break;
-
     }
 }
 
@@ -631,10 +657,10 @@ function getDistance(x1, y1, x2, y2) {
 function ballActions() {
     //set gravity of both sides
     if (myBall.miX < canvas.width / 2) {
-        world.SetGravity(new b2Vec2(-15, 0));
+        world.SetGravity(new b2Vec2(-17, 0));
     }
     else {
-        world.SetGravity(new b2Vec2(15, 0));
+        world.SetGravity(new b2Vec2(17, 0));
     }
     //check if ball is out of canvas, add points to player's score
     if (myBall.miX >= canvas.width + 20) {
@@ -747,14 +773,18 @@ function explosion (x,  y, isKonfetti ) {
     //console.log("mouse x = " + mouseX + "   mouse y = " + mouseY);}
 }
 
-function shootBall () {
+function shootBall (ballPower) {
 
     var impulsDirection = 0;
-    var speed = 50;
+    var speed = ballPower;
+    for(var i = 0; i < konfetti.length; i++){
+        if(konfetti[i].miX > 949 && konfetti[i].miY < 98) konfetti[i].applyImpulse(200, speed);
+        else if(konfetti[i].miX < 72 && konfetti[i].miY > 669) konfetti[i].applyImpulse(20, speed);
+    }
     if (myBall.miX> 949 &&myBall.miY < 98)  impulsDirection = 200; //1/4 * Math.PI;
     else if (myBall.miX < 72 &&myBall.miY > 669)  impulsDirection = 20; //linker Spieler
     else speed = 0;
-    
+
     myBall.applyImpulse(impulsDirection, speed);
 }
 
@@ -773,15 +803,16 @@ function reload () {
         }
     }
     if (gameOver) {
-        if (mouseX > canvas.width / 2 - 50 && mouseX < canvas.width / 2 + 50 && mouseY > canvas.height / 2 + 150 && mouseY < canvas.height / 2 + 200) {
+        //if (mouseX > canvas.width / 2 - 50 && mouseX < canvas.width / 2 + 50 && mouseY > canvas.height / 2 + 150 && mouseY < canvas.height / 2 + 200) {
             player1.delete();
             player2.delete();
             ballCount = 0;
             ballLimit = 5;
             gameOver = false;
             startScreen = true;
+            myBall.setVelocity(new Vec2(0, 0));
             myBall.setLocation(p1StartPos[0], p1StartPos[1]);
-        }
+       // }
     }
 }
 /*
@@ -807,27 +838,28 @@ function checkCollision(bodyA, bodyB){
 }*/
 
 function drawActualPoints( gamePonts,playerPoints1, playerPoints2) {
+    ctx.save();
     ctx.fillStyle = "rgba(187, 187, 187, 0.5)";
-    ctx.font = "normal 11px Roboto-Medium";
+    ctx.font = "normal 18px Roboto-Medium";
 
     //left Player
     ctx.save();
-    ctx.translate(150, 330);
+    ctx.translate(130, 280);
     ctx.rotate(Math.PI/2);
     ctx.fillText("Player 1: " +playerPoints1+" Points.", 20, 0);
-    ctx.fillText("points in current game: " +gamePonts, 0, 20);
-    ctx.fillText("Ball No. "+(ballCount+1)+" of "+(ballLimit+1) , 25, 40);
+    ctx.fillText("points in current game: " +gamePonts, 0, 30);
+    ctx.fillText("Ball No. "+(ballCount+1)+" of "+(ballLimit) , 30, 60);
     ctx.restore();
 
     ctx.save();
-    ctx.translate(canvas.width-150, canvas.height-330);
+    ctx.translate(canvas.width-130, canvas.height-280);
     ctx.rotate(-Math.PI/2);
     ctx.fillText("Player 2: " +playerPoints2+" Points.", 20, 0);
-    ctx.fillText("points in current game: " +gamePonts, 0, 20);
-    ctx.fillText("Ball No. "+(ballCount+1)+" of "+(ballLimit+1) , 25, 40);
+    ctx.fillText("points in current game: " +gamePonts, 0, 30);
+    ctx.fillText("Ball No. "+(ballCount+1)+" of "+(ballLimit) , 30, 60);
     ctx.restore();
 
-
+    ctx.restore();
 }
 
 

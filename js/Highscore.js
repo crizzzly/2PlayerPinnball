@@ -41,6 +41,8 @@ function Highscore () {
 
     //this.score = []; //new Array(5).fill(new Array(2)); new Array(10);/
     canvas.addEventListener('mouseup', this.reload);
+    //document.onkeydown=function(){this.reload};
+
     /*for (var i = 0; i < this.score.length; i++){
      this.score[i] = new Array(2);
      }*/
@@ -112,7 +114,9 @@ function Highscore () {
         ctx.restore();
         ctx.fillStyle = "#2e2e2e";
         ctx.fillText("New Game?", canvas.width/2-30, 580);
-        // ctx.translate(200, 400);
+
+
+            // ctx.translate(200, 400);
        // ctx.translate(canvas.width/2-250, canvas.height/2-250);
          };
 
