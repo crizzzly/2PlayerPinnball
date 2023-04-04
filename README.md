@@ -1,8 +1,12 @@
 # Buoy
 
-HfG Schwäbisch Gmünd  
-Internet of Things - Design connected devices  
-Semester 2, Basics in Media Space with Dr. Franklin Hernandez-Castro
+*HfG Schwäbisch Gmünd  
+Internet of Things 
+Semester 2, Basics in Media Space with Dr. Franklin Hernandez-Castro*
+
+*by Christina Rost, Jana Seemann, Lea Kramer, Xian Wu  
+April 2017*
+
   
 
 ### Two Player Pinnball Browser Game
@@ -22,6 +26,4 @@ shoot ball with ***"space"***
 
   
    
-*by Christina Rost, Jana Seemann, Lea Kramer, Xian Wu  
-April 2017*
 
